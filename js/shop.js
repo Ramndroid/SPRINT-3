@@ -55,8 +55,6 @@ var products = [
         type: 'clothes'
     }
 ]
-// Array with products (objects) added directly with push(). Products in this array are repeated.
-var cartList = [];
 
 // Improved version of cartList. Cart is an array of products (objects), but each one has a quantity field to define its quantity, so these products are not repeated.
 var cart = [];
@@ -77,86 +75,8 @@ var subtotal = {
 };
 var total = 0;
 
-// Exercise 1
-function buy(id) {
-    // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cartList array
-    products.forEach(product => {
-        if (product.id === id) {
-            cartList.push(product);
-        }
-    });
-}
 
-// Exercise 2
-function cleanCart() {
-    cartList = [];
-}
-
-// Exercise 3
-function calculateSubtotals() {
-    // 1. Create a for loop on the "cartList" array 
-    // 2. Implement inside the loop an if...else or switch...case to add the quantities of each type of product, obtaining the subtotals: subtotalGrocery, subtotalBeauty and subtotalClothes
-    cartList.forEach(product => {
-        if (typeof product.price === 'number') {
-            switch (product.type) {
-                case 'grocery':
-                    subtotal.grocery.value += product.price;
-                    break;
-
-                case 'beauty':
-                    subtotal.beauty.value += product.price;
-                    break;
-
-                case 'clothes':
-                    subtotal.clothes.value += product.price;
-                    break;
-            }
-        }
-    });
-    return subtotal;
-}
-
-// Exercise 4
-function calculateTotal() {
-    // Calculate total price of the cart either using the "cartList" array
-    cartList.forEach(product => {
-        if (typeof product.price === 'number') {
-            total += product.price;
-        }
-    });
-    return total;
-}
-
-// Exercise 5
-function generateCart() {
-    // Using the "cartlist" array that contains all the items in the shopping cart, 
-    // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
-    cartList.forEach(item => {
-        if (cart.filter(cartItem => cartItem.name === item.name).length > 0) {
-            cart.forEach(it => {
-                if (it.name === item.name) {
-                    it.quantity += 1;
-                    it.subtotal = item.price * it.quantity;
-                }
-            });
-        } else {
-            let element = {
-                id: item.id,
-                name: item.name,
-                price: item.price,
-                type: item.type,
-                quantity: 1,
-                subtotal: item.price,
-                subtotalWithDiscount: 0
-            };
-
-            cart.push(element);
-        }
-    });
-}
-
-// Exercise 6
+// APPLY PROMOTIONS CART
 function applyPromotionsCart() {
     // Apply promotions to each item in the array "cart"
     cart.forEach(item => {
@@ -182,7 +102,7 @@ function applyPromotionsCart() {
     });
 }
 
-// Exercise 7
+// ADD TO CART
 function addToCart(id) {
     // Refactor previous code in order to simplify it 
     // 1. Loop for to the array products to get the item to add to cart
@@ -213,8 +133,7 @@ function addToCart(id) {
     });
 }
 
-// Ejercicio 7 refactorizar [basarnos en 'cart' en vez de 'cartList']
-// En esta ocasión ya doy por válidos los typeof de product.price como 'number'
+// CALCULATE SUBTOTAL
 function calculateSubtotalsCart() {
     Object.keys(subtotal).forEach(key => {
         subtotal[key].value = 0;
@@ -247,7 +166,7 @@ function calculateSubtotalsCart() {
     });
 }
 
-// Ejercicio 7 refactorizar [basarnos en 'cart' en vez de 'cartList']
+// CALCULATE TOTAL
 function calculateTotalCart() {
     total = 0;
     let totalTmp = 0;
@@ -261,7 +180,7 @@ function calculateTotalCart() {
     total = totalTmp - discountTmp;
 }
 
-// Exercise 9
+// REMOVE 1 U. FROM CART
 function removeFromCart(id) {
     for (let i = 0; i < cart.length; i++) {
         if (cart[i].id === id) {
@@ -277,6 +196,7 @@ function removeFromCart(id) {
     printCart();
 }
 
+// REMOVE ITEMO FROM CART
 function removeElementFromCart(id) {
     for (let i = 0; i < cart.length; i++) {
         if (cart[i].id === id) {
@@ -287,6 +207,7 @@ function removeElementFromCart(id) {
     printCart();
 }
 
+// ADD 1 U. TO CART
 function addFromCart(id) {
     for (let i = 0; i < cart.length; i++) {
         if (cart[i].id === id) {
@@ -300,7 +221,7 @@ function addFromCart(id) {
     printCart();
 }
 
-// Exercise 10
+// PRINT CART
 function printCart() {
     // Aplicar promociones a 'cart'
     applyPromotionsCart();
@@ -493,137 +414,5 @@ function printCart() {
     }
 }
 
-// En esta funcion (en desuso) manipulo el dom literalmente mediante .innerHTML = `<div>...`;
-function printCartDeprecated() {
-    // Fill the shopping cart modal manipulating the shopping cart dom
-
-    // Aplicar promociones a 'cart'
-    applyPromotionsCart();
-
-    // Calcular subtotales
-    calculateSubtotalsCart();
-
-    // Calcular total
-    calculateTotalCart();
-
-    let lista = document.getElementById("lista");
-    lista.innerHTML = '';
-
-    cart.forEach(item => {
-        let entry = document.createElement('li');
-        entry.className = "list-group-item";
-
-        let texto =
-            `
-        
-        <div class="d-flex justify-content-between align-items-end bg-info"> 
-            <h5 class="pl-3">${item.name.toUpperCase()}</h5> 
-            <div class="pl-5">
-                <button class="btn btn-outline-light btn-sm m-2" onclick="removeElementFromCart(${item.id})"><i class="fas fa-trash-alt"></i></button>
-            </div>
-        </div>
-
-        
-
-        <div class="container">
-            <div class="row justify-content-end">
-                <div class="col-10 span-4 d-flex justify-content-between align-items-end mt-1 text-italic">
-                    <h6 class="font-italic text-secondary">Quantity:</h6>
-                    <div class="d-flex"> 
-                         <button class="btn btn-secondary btn-sm p-1" onclick="removeFromCart(${item.id})">-</button>
-                         <button class="btn btn-secondary btn-sm p-1 ml-1" onclick="addFromCart(${item.id})">+</button>
-                    </div>
-                    <div class="d-flex justify-content-end align-items-end mt-4"> 
-                         <h6 class="font-italic text-secondary ml-5">${item.quantity}</h6>
-                    </div>
-                    
-                </div>
-            </div>
-
-            <div class="row justify-content-end">
-                <div class=" col-10 d-flex justify-content-between align-items-end mt-1 text-italic">
-                    <h6 class="font-italic text-secondary">Precio unidad:</h6>
-                    <h6 class="ml-5 font-italic text-secondary">${item.price} €</h6>
-                </div>
-            </div>
-        </div>
-        
-        
-        `;
-
-        if (item.subtotalWithDiscount > 0) {
-            texto += `
-
-
-
-            <div class="container">
-                <div class="row justify-content-end">
-                    <div class="col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic">
-                        <h6 class="font-italic text-secondary">Subtotal sin descuento:</h6>
-                        <h6 class="ml-5 font-italic text-secondary">${item.subtotal} €</h6>
-                    </div>
-                </div>
-
-                <div class="row justify-content-end">
-                    <div class=" col-10 d-flex justify-content-between align-items-end mt-1 text-italic">
-                        <h6 class="font-italic text-success">Descuento:</h6>
-                        <h6 class="ml-5 font-italic text-success">${item.subtotal - item.subtotalWithDiscount} €</h6>
-                    </div>
-                </div>
-
-                <div class="row justify-content-end">
-                    <div class=" col-10 d-flex justify-content-between align-items-center mt-1 text-italic bg-warning">
-                        <h6 class="font-italic text-white">Precio unidad c/descuento:</h6>
-                        <h6 class="ml-5 font-italic text-white">${item.subtotalWithDiscount / item.quantity} €</h6>
-                    </div>
-                </div>
-            </div>
-
-            <div class="container">
-                <div class="row justify-content-end">
-                    <div class="col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic">
-                        <h5>Subtotal:</h5>
-                        <h5 class="ml-5">${item.subtotalWithDiscount} €</h5>
-                    </div>
-                </div>
-            </div>
-            <br>
-            `;
-        } else {
-            texto += `
-            <div class="container">
-                <div class="row justify-content-end">
-                    <div class="col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic">
-                        <h5>Subtotal:</h5>
-                        <h5 class="ml-5">${item.subtotal} €</h5>
-                    </div>
-                </div>
-            </div>
-            <br>
-            `;
-        }
-
-        entry.innerHTML = texto;
-        lista.appendChild(entry);
-    });
-
-
-    let totalCarrito = document.getElementById("total");
-    if (total > 0) {
-        totalCarrito.innerHTML = `
-        <div class="bg-primary text-white d-flex justify-content-between p-2 mb-3">
-            <h4 class="font-weight-bold">TOTAL</h4> 
-            <h4 class="font-weight-bold">${total} €</h4>
-        </div>
-        `;
-    } else {
-        totalCarrito.innerHTML = `
-        <div class="bg-primary text-white d-flex justify-content-center p-2 mb-3">
-            <h4 class="font-weight-bold">Carrito vacio</h4>
-        </div>
-        `;
-    }
-
-}
 
 
