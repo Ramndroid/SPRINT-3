@@ -91,7 +91,6 @@ function buy(id) {
 // Exercise 2
 function cleanCart() {
     cartList = [];
-    cart = [];
 }
 
 // Exercise 3
@@ -115,40 +114,7 @@ function calculateSubtotals() {
             }
         }
     });
-}
-
-// Ejercicio 7 refactorizar [basarnos en 'cart' en vez de 'cartList']
-// En esta ocasión ya doy por válidos los typeof de product.price como 'number'
-function calculateSubtotalsCart() {
-    Object.keys(subtotal).forEach(key => {
-        subtotal[key].value = 0;
-        subtotal[key].discount = 0;
-    });
-
-    cart.forEach(product => {
-        switch (product.type) {
-            case 'grocery':
-                subtotal.grocery.value += product.subtotal;
-                if (product.subtotalWithDiscount > 0) {
-                    subtotal.grocery.discount += product.subtotal - product.subtotalWithDiscount;
-                }
-                break;
-
-            case 'beauty':
-                subtotal.beauty.value += product.subtotal;
-                if (product.subtotalWithDiscount > 0) {
-                    subtotal.beauty.discount += product.subtotal - product.subtotalWithDiscount;
-                }
-                break;
-
-            case 'clothes':
-                subtotal.clothes.value += product.subtotal;
-                if (product.subtotalWithDiscount > 0) {
-                    subtotal.clothes.discount += product.subtotal - product.subtotalWithDiscount;
-                }
-                break;
-        }
-    });
+    return subtotal;
 }
 
 // Exercise 4
@@ -159,26 +125,7 @@ function calculateTotal() {
             total += product.price;
         }
     });
-}
-
-// Ejercicio 7 refactorizar [basarnos en 'cart' en vez de 'cartList']
-function calculateTotalCart() {
-    total = 0;
-    let totalTmp = 0;
-    let discountTmp = 0;
-
-    Object.keys(subtotal).forEach(key => {
-        totalTmp += subtotal[key].value;
-        discountTmp += subtotal[key].discount;
-    });
-
-    total = totalTmp - discountTmp;
-
-    /*
-    console.log(`Total without discount: ${totalTmp}`);
-    console.log(`Discount: ${discountTmp}`);
-    console.log(`TOTAL WITH DISCOUNT: ${total}`);
-    */
+    return total;
 }
 
 // Exercise 5
@@ -266,12 +213,56 @@ function addToCart(id) {
     });
 }
 
+// Ejercicio 7 refactorizar [basarnos en 'cart' en vez de 'cartList']
+// En esta ocasión ya doy por válidos los typeof de product.price como 'number'
+function calculateSubtotalsCart() {
+    Object.keys(subtotal).forEach(key => {
+        subtotal[key].value = 0;
+        subtotal[key].discount = 0;
+    });
+
+    cart.forEach(product => {
+        switch (product.type) {
+            case 'grocery':
+                subtotal.grocery.value += product.subtotal;
+                if (product.subtotalWithDiscount > 0) {
+                    subtotal.grocery.discount += product.subtotal - product.subtotalWithDiscount;
+                }
+                break;
+
+            case 'beauty':
+                subtotal.beauty.value += product.subtotal;
+                if (product.subtotalWithDiscount > 0) {
+                    subtotal.beauty.discount += product.subtotal - product.subtotalWithDiscount;
+                }
+                break;
+
+            case 'clothes':
+                subtotal.clothes.value += product.subtotal;
+                if (product.subtotalWithDiscount > 0) {
+                    subtotal.clothes.discount += product.subtotal - product.subtotalWithDiscount;
+                }
+                break;
+        }
+    });
+}
+
+// Ejercicio 7 refactorizar [basarnos en 'cart' en vez de 'cartList']
+function calculateTotalCart() {
+    total = 0;
+    let totalTmp = 0;
+    let discountTmp = 0;
+
+    Object.keys(subtotal).forEach(key => {
+        totalTmp += subtotal[key].value;
+        discountTmp += subtotal[key].discount;
+    });
+
+    total = totalTmp - discountTmp;
+}
+
 // Exercise 9
 function removeFromCart(id) {
-    // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cartList array
-
-    // IGNORO LOS COMENTARIOS 1. Y 2.
     for (let i = 0; i < cart.length; i++) {
         if (cart[i].id === id) {
             if (cart[i].quantity > 1) {
@@ -282,21 +273,17 @@ function removeFromCart(id) {
             }
         }
     }
-    
+
     printCart();
 }
 
 function removeElementFromCart(id) {
-    // 1. Loop for to the array products to get the item to add to cart
-    // 2. Add found product to the cartList array
-
-    // IGNORO LOS COMENTARIOS 1. Y 2.
     for (let i = 0; i < cart.length; i++) {
         if (cart[i].id === id) {
             cart.splice(i, 1);
         }
     }
-    
+
     printCart();
 }
 
@@ -306,20 +293,217 @@ function addFromCart(id) {
             if (cart[i].quantity >= 1) {
                 cart[i].quantity++;
                 cart[i].subtotal = cart[i].price * cart[i].quantity;
-            } 
+            }
         }
     }
 
     printCart();
 }
 
-
-
 // Exercise 10
 function printCart() {
-    // Fill the shopping cart modal manipulating the shopping cart dom
+    // Aplicar promociones a 'cart'
     applyPromotionsCart();
+
+    // Calcular subtotales
     calculateSubtotalsCart();
+
+    // Calcular total
+    calculateTotalCart();
+
+    let lista = document.getElementById("lista");
+    lista.innerHTML = '';
+
+    function createDomElement(element, classes) {
+        let el = document.createElement(element);
+        if (classes.length > 0) {
+            el.className = classes;
+            return el;
+        }
+        return el;
+    }
+
+    // CADA ITEM DEL CARRITO REPRESENTADO EN 'LI'
+    cart.forEach(item => {
+        // ELEMENTO LI - PRINCIPAL
+        let entry = createDomElement('li', 'list-group-item');
+        lista.appendChild(entry);
+        // CABECERA DE PRODUCTO
+        let divTitulo = createDomElement('div', 'd-flex justify-content-between align-items-end bg-info');
+        entry.appendChild(divTitulo);
+        // NOMBRE PRODUCTO H5
+        let divTituloH5 = createDomElement('h5', 'pl-3');
+        divTituloH5.innerHTML = item.name.toUpperCase();
+        divTitulo.appendChild(divTituloH5);
+        // BOTÓN BORRAR - DIV
+        let divTituloBoton = createDomElement('div', 'pl-5');
+        divTitulo.appendChild(divTituloBoton);
+        // BOTÓN BORRAR - BUTTON
+        let botonEliminarElemento = createDomElement('button', 'btn btn-outline-light btn-sm m-2');
+        botonEliminarElemento.onclick = function () { removeElementFromCart(item.id) };
+        divTituloBoton.appendChild(botonEliminarElemento);
+        // BOTÓN BORRAR - ICONO
+        let botonEliminarElementoIcono = createDomElement('i', 'fas fa-trash-alt');
+        botonEliminarElemento.appendChild(botonEliminarElementoIcono);
+
+
+        // CONTAINER INFORMACIÓN DEL PRODUCTO EN EL CARRITO
+        let containerInformacion = createDomElement('div', 'container');
+        entry.appendChild(containerInformacion);
+        let rowQuantity = createDomElement('div', 'row justify-content-end');
+        containerInformacion.appendChild(rowQuantity);
+
+        // CANTIDAD EN EL CARRITO
+        let colQuantity = createDomElement('div', 'col-10 span-4 d-flex justify-content-between align-items-end mt-1 text-italic');
+        rowQuantity.appendChild(colQuantity);
+        let rotuloQuantity = createDomElement('h6', 'font-italic text-secondary');
+        rotuloQuantity.innerHTML = 'Quantity:';
+        colQuantity.appendChild(rotuloQuantity);
+
+        // BOTONES - + PARA LA CANTIDAD
+        let divBotonesQuantity = createDomElement('div', 'd-flex');
+        colQuantity.appendChild(divBotonesQuantity);
+        let botonRestarCantidad = createDomElement('button', 'btn btn-secondary btn-sm p-1');
+        botonRestarCantidad.innerHTML = '-';
+        botonRestarCantidad.onclick = function () { removeFromCart(item.id) };
+        divBotonesQuantity.appendChild(botonRestarCantidad);
+        let botonAnadirCantidad = createDomElement('button', 'btn btn-secondary btn-sm p-1 ml-1');
+        botonAnadirCantidad.innerHTML = '+';
+        botonAnadirCantidad.onclick = function () { addFromCart(item.id) };
+        divBotonesQuantity.appendChild(botonAnadirCantidad);
+
+        // TEXTO PARA INDICAR LA CANTIDAD
+        let divTextoQuantity = createDomElement('div', 'd-flex justify-content-end align-items-end mt-4');
+        colQuantity.appendChild(divTextoQuantity);
+        let textoQuantity = createDomElement('h6', 'font-italic text-secondary ml-5');
+        textoQuantity.innerHTML = item.quantity;
+        divTextoQuantity.appendChild(textoQuantity);
+
+        // PRECIO UNIDAD
+        let rowPrecioUnidad = createDomElement('div', 'row justify-content-end');
+        containerInformacion.appendChild(rowPrecioUnidad);
+        let colPrecioUnidad = createDomElement('div', 'col-10 d-flex justify-content-between align-items-end mt-1 text-italic');
+        rowPrecioUnidad.appendChild(colPrecioUnidad);
+        let rotuloPrecioUnidad = createDomElement('h6', 'font-italic text-secondary');
+        rotuloPrecioUnidad.innerHTML = 'Precio Unidad:';
+        colPrecioUnidad.appendChild(rotuloPrecioUnidad);
+        let textoPrecioUnidad = createDomElement('h6', 'ml-5 font-italic text-secondary');
+        textoPrecioUnidad.innerHTML = `${item.price} €`;
+        colPrecioUnidad.appendChild(textoPrecioUnidad);
+
+        // SE MOSTRARÁ O NO INFORMACIÓN SOBRE DESCUENTOS
+        if (item.subtotalWithDiscount > 0) {
+
+            // CONTAINER DETALLE DESCUENTOS Y SUBTOTAL
+            let containerDescuentos = createDomElement('div', 'container');
+            entry.appendChild(containerDescuentos);
+
+            // SUBTOTAL SIN DESCUENTOS
+            let rowSubtotalSinDesc = createDomElement('div', 'row justify-content-end');
+            containerDescuentos.appendChild(rowSubtotalSinDesc);
+            let colSubtotalSinDesc = createDomElement('div', 'col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic');
+            rowSubtotalSinDesc.appendChild(colSubtotalSinDesc);
+            let rotuloSubtotalSinDesc = createDomElement('h6', 'font-italic text-secondary');
+            rotuloSubtotalSinDesc.innerHTML = 'Subtotal sin descuento:';
+            colSubtotalSinDesc.appendChild(rotuloSubtotalSinDesc);
+            let textoSubtotalSinDesc = createDomElement('h6', 'ml-5 font-italic text-secondary');
+            textoSubtotalSinDesc.innerHTML = `${item.subtotal} €`;
+            colSubtotalSinDesc.appendChild(textoSubtotalSinDesc);
+
+            // DESCUENTO
+            let rowDescuento = createDomElement('div', 'row justify-content-end');
+            containerDescuentos.appendChild(rowDescuento);
+            let colDescuento = createDomElement('div', 'col-10 d-flex justify-content-between align-items-end mt-1 text-italic');
+            rowDescuento.appendChild(colDescuento);
+            let rotuloDescuento = createDomElement('h6', 'font-italic text-success');
+            rotuloDescuento.innerHTML = 'Descuento:';
+            colDescuento.appendChild(rotuloDescuento);
+            let textoDescuento = createDomElement('h6', 'ml-5 font-italic text-success');
+            textoDescuento.innerHTML = `${item.subtotal - item.subtotalWithDiscount} €`;
+            colDescuento.appendChild(textoDescuento);
+
+            // PRECIO UNIDAD CON DESCUENTO
+            let rowPrecioUnidadConDescuento = createDomElement('div', 'row justify-content-end');
+            containerDescuentos.appendChild(rowPrecioUnidadConDescuento);
+            let colPUCD = createDomElement('div', 'col-10 d-flex justify-content-between align-items-center mt-1 text-italic bg-warning');
+            rowPrecioUnidadConDescuento.appendChild(colPUCD);
+            let rotuloPUCD = createDomElement('h6', 'font-italic text-white');
+            rotuloPUCD.innerHTML = 'Precio unidad c/descuento:';
+            colPUCD.appendChild(rotuloPUCD);
+            let textoPUCD = createDomElement('h6', 'ml-5 font-italic text-white');
+            textoPUCD.innerHTML = `${item.subtotalWithDiscount / item.quantity} €`;
+            colPUCD.appendChild(textoPUCD);
+
+            // CONTAINER SUBTOTAL CON DESCUENTO
+            let containerSubtotalConDescuento = createDomElement('div', 'container');
+            entry.appendChild(containerSubtotalConDescuento);
+
+            // SUBTOTAL CON DESCUENTO
+            let rowSCD = createDomElement('div', 'row justify-content-end');
+            containerSubtotalConDescuento.appendChild(rowSCD);
+            let colSCD = createDomElement('div', 'col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic');
+            rowSCD.appendChild(colSCD);
+            let rotuloSCD = createDomElement('h5', '');
+            rotuloSCD.innerHTML = 'Subtotal:';
+            colSCD.appendChild(rotuloSCD);
+            let textoSCD = createDomElement('h5', 'ml-5');
+            textoSCD.innerHTML = `${item.subtotalWithDiscount} €`;
+            colSCD.appendChild(textoSCD);
+
+        } else {
+            // SUBTOTAL
+            let containerSubtotal = createDomElement('div', 'container');
+            entry.appendChild(containerSubtotal);
+
+            let rowSubtotal = createDomElement('div', 'row justify-content-end');
+            containerSubtotal.appendChild(rowSubtotal);
+            let colSubtotal = createDomElement('div', 'col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic');
+            rowSubtotal.appendChild(colSubtotal);
+            let rotuloSubtotal = createDomElement('h5', '');
+            rotuloSubtotal.innerHTML = 'Subtotal:';
+            colSubtotal.appendChild(rotuloSubtotal);
+            let textoSubtotal = createDomElement('h5', 'ml-5');
+            textoSubtotal.innerHTML = `${item.subtotal} €`;
+            colSubtotal.appendChild(textoSubtotal);
+        }
+
+
+    });
+
+    // TOTAL DEL CARRITO AL FINAL DE LA LISTA
+    let totalCarrito = document.getElementById("total");
+    totalCarrito.innerHTML = '';
+
+
+    if (total > 0) {
+        let contenedorTotal = createDomElement('div', 'bg-primary text-white d-flex justify-content-between p-2 mb-3');
+        totalCarrito.appendChild(contenedorTotal);
+        let rotuloTotal = createDomElement('h4', 'font-weight-bold');
+        rotuloTotal.innerHTML = 'TOTAL';
+        contenedorTotal.appendChild(rotuloTotal);
+        let textoTotal = createDomElement('h4', 'font-weight-bold');
+        textoTotal.innerHTML = `${total} €`;
+        contenedorTotal.appendChild(textoTotal);
+    } else {
+        let contenedorCarritoVacio = createDomElement('div', 'bg-primary text-white d-flex justify-content-center p-2 mb-3');
+        totalCarrito.appendChild(contenedorCarritoVacio);
+        let carritoVacio = createDomElement('h4', 'font-weight-bold');
+        carritoVacio.innerHTML = 'Carrito vacío';
+        contenedorCarritoVacio.appendChild(carritoVacio);
+    }
+}
+
+// En esta funcion (en desuso) manipulo el dom literalmente mediante .innerHTML = `<div>...`;
+function printCartDeprecated() {
+    // Fill the shopping cart modal manipulating the shopping cart dom
+
+    // Aplicar promociones a 'cart'
+    applyPromotionsCart();
+
+    // Calcular subtotales
+    calculateSubtotalsCart();
+
+    // Calcular total
     calculateTotalCart();
 
     let lista = document.getElementById("lista");
@@ -327,57 +511,95 @@ function printCart() {
 
     cart.forEach(item => {
         let entry = document.createElement('li');
+        entry.className = "list-group-item";
 
-        let texto = `
-        <div class="d-flex justify-content-between">
-            <h5>${item.name.toUpperCase()}</h5> 
-            <h6>Quantity: ${item.quantity}</h6>
-        </div>
+        let texto =
+            `
         
-        <div class="d-flex justify-content-end align-items-end"> 
-            
+        <div class="d-flex justify-content-between align-items-end bg-info"> 
+            <h5 class="pl-3">${item.name.toUpperCase()}</h5> 
             <div class="pl-5">
-                <button class="btn btn-secondary" onclick="removeFromCart(${item.id})">-</button>
-                <button class="btn btn-secondary" onclick="addFromCart(${item.id})">+</button>
-                <button class="btn btn-secondary" onclick="removeElementFromCart(${item.id})"><i class="fas fa-trash-alt"></i></button>
+                <button class="btn btn-outline-light btn-sm m-2" onclick="removeElementFromCart(${item.id})"><i class="fas fa-trash-alt"></i></button>
             </div>
         </div>
+
+        
+
+        <div class="container">
+            <div class="row justify-content-end">
+                <div class="col-10 span-4 d-flex justify-content-between align-items-end mt-1 text-italic">
+                    <h6 class="font-italic text-secondary">Quantity:</h6>
+                    <div class="d-flex"> 
+                         <button class="btn btn-secondary btn-sm p-1" onclick="removeFromCart(${item.id})">-</button>
+                         <button class="btn btn-secondary btn-sm p-1 ml-1" onclick="addFromCart(${item.id})">+</button>
+                    </div>
+                    <div class="d-flex justify-content-end align-items-end mt-4"> 
+                         <h6 class="font-italic text-secondary ml-5">${item.quantity}</h6>
+                    </div>
+                    
+                </div>
+            </div>
+
+            <div class="row justify-content-end">
+                <div class=" col-10 d-flex justify-content-between align-items-end mt-1 text-italic">
+                    <h6 class="font-italic text-secondary">Precio unidad:</h6>
+                    <h6 class="ml-5 font-italic text-secondary">${item.price} €</h6>
+                </div>
+            </div>
+        </div>
+        
+        
         `;
 
         if (item.subtotalWithDiscount > 0) {
             texto += `
-            <div class="d-flex justify-content-end align-items-end mt-4"> 
-                <div>
-                    <div class="d-flex justify-content-between align-items-end mt-4 text-italic">
+
+
+
+            <div class="container">
+                <div class="row justify-content-end">
+                    <div class="col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic">
                         <h6 class="font-italic text-secondary">Subtotal sin descuento:</h6>
                         <h6 class="ml-5 font-italic text-secondary">${item.subtotal} €</h6>
                     </div>
-                    <div class="d-flex justify-content-between align-items-end mt-1">
+                </div>
+
+                <div class="row justify-content-end">
+                    <div class=" col-10 d-flex justify-content-between align-items-end mt-1 text-italic">
                         <h6 class="font-italic text-success">Descuento:</h6>
                         <h6 class="ml-5 font-italic text-success">${item.subtotal - item.subtotalWithDiscount} €</h6>
                     </div>
-                    <div class="d-flex justify-content-between align-items-end mt-1">
-                        <h6>Subtotal con descuento:</h6>
-                        <h6 class="ml-5">${item.subtotalWithDiscount} €</h6>
+                </div>
+
+                <div class="row justify-content-end">
+                    <div class=" col-10 d-flex justify-content-between align-items-center mt-1 text-italic bg-warning">
+                        <h6 class="font-italic text-white">Precio unidad c/descuento:</h6>
+                        <h6 class="ml-5 font-italic text-white">${item.subtotalWithDiscount / item.quantity} €</h6>
+                    </div>
+                </div>
+            </div>
+
+            <div class="container">
+                <div class="row justify-content-end">
+                    <div class="col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic">
+                        <h5>Subtotal:</h5>
+                        <h5 class="ml-5">${item.subtotalWithDiscount} €</h5>
                     </div>
                 </div>
             </div>
             <br>
-            <hr>
             `;
         } else {
             texto += `
-            <div class="d-flex justify-content-end align-items-end mt-4 text-italic">
-                <h6 class="font-italic text-secondary">Precio unidad:</h6>
-                <h6 class="ml-5 font-italic text-secondary">${item.price} €</h6>
-            </div>
-            <div class="d-flex justify-content-end align-items-end mt-4"> 
-                <div>
-                    <h5>Subtotal: ${item.subtotal} €</h5>
+            <div class="container">
+                <div class="row justify-content-end">
+                    <div class="col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic">
+                        <h5>Subtotal:</h5>
+                        <h5 class="ml-5">${item.subtotal} €</h5>
+                    </div>
                 </div>
             </div>
             <br>
-            <hr>
             `;
         }
 
@@ -385,22 +607,23 @@ function printCart() {
         lista.appendChild(entry);
     });
 
-    
+
     let totalCarrito = document.getElementById("total");
     if (total > 0) {
         totalCarrito.innerHTML = `
-        <div class="bg-primary text-white d-flex justify-content-between p-2">
+        <div class="bg-primary text-white d-flex justify-content-between p-2 mb-3">
             <h4 class="font-weight-bold">TOTAL</h4> 
             <h4 class="font-weight-bold">${total} €</h4>
         </div>
         `;
     } else {
         totalCarrito.innerHTML = `
-        <div class="bg-primary text-white d-flex justify-content-center p-2">
+        <div class="bg-primary text-white d-flex justify-content-center p-2 mb-3">
             <h4 class="font-weight-bold">Carrito vacio</h4>
         </div>
         `;
     }
-    
+
 }
+
 

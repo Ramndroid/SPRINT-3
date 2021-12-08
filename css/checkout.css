@@ -3,6 +3,21 @@
 body {
     font-family: Poppins;
 }
-#errorPassword, #errorName, #errorPhone {
+
+#errorName, #errorLastName, #errorEmail,
+#errorAddress, #errorPassword, #errorPhone {
     display: none;
+}
+
+input {
+    border: 2px solid currentcolor;
+}
+
+input:invalid {
+    border: 2px dashed lightcoral;
+}
+
+input:invalid:focus {
+    /* background-image: linear-gradient(pink, lightgreen); */
+    background-color: lightcoral;
 }
