@@ -22,10 +22,6 @@ address.addEventListener('input', validarAddress);
 password.addEventListener('input', validarPassword);
 phone.addEventListener('input', validarPhone);
 
-// Constantes
-const displayError = "inline";
-const displayErrorColor = "lightcoral";
-const displayNone = "none";
 
 // Funciones de uso general para determinar estados de valores
 function isNotEmpty(valor) {
@@ -41,8 +37,20 @@ function hasNumber(valor) {
 }
 
 function hasLetter(valor) {
-    let ascii = valor.toUpperCase().charCodeAt(0);
-    return ascii > 64 && ascii < 91;
+    for (var i = 0; i < valor.length; i++) {
+        let ascii = valor.toUpperCase().charCodeAt(i);
+        if (ascii > 64 && ascii < 91) {
+            return true;
+        }
+    }
+    return false;
+}
+
+function setError(error, field, text) {
+    error.innerHTML = text;
+    error.style.display = "inline";
+    error.style.color = "lightcoral";
+    field.setCustomValidity(text);
 }
 
 // Funciones de validación para cada campo
@@ -53,35 +61,28 @@ function validarNombre() {
 
     if (thisIsNotEmpty && thisIsLength && !thisHasNumber) {
         userName.setCustomValidity("");
-        errorName.style.display = displayNone;
+        errorName.style.display = "none";
         return true;
     } else {
 
         if (!thisIsNotEmpty) {
-            errorName.style.display = displayNone;
-            userName.setCustomValidity("Empty field!");
+            setError(errorName, userName, "Empty name");
         }
 
         else if (!thisIsLength && !thisHasNumber) {
-            errorName.style.display = displayNone;
-            userName.setCustomValidity("Min 3 characters!");
+            setError(errorName, userName, "Min 3 characters");
         }
 
         else if (thisIsLength && thisHasNumber) {
-            errorName.style.display = displayError;
-            errorName.style.color = displayErrorColor;
-            userName.setCustomValidity("Don't use numbers here!");
+            setError(errorName, userName, "Don't use numbers here");
         }
 
         else if (!thisIsLength && thisHasNumber) {
-            errorName.style.display = displayError;
-            errorName.style.color = displayErrorColor;
-            userName.setCustomValidity("Min3 characters NO NUMBERS!");
+            setError(errorName, userName, "Min 3 characters NO NUMBERS");
         }
 
         else {
-            errorName.style.display = displayNone;
-            userName.setCustomValidity("Invalid field");
+            setError(errorName, userName, "Invalid field");
         }
 
         return false;
@@ -95,35 +96,28 @@ function validarLastName() {
 
     if (thisIsNotEmpty && thisIsLength && !thisHasNumber) {
         lastName.setCustomValidity("");
-        errorLastName.style.display = displayNone;
+        errorLastName.style.display = "none";
         return true;
     } else {
 
         if (!thisIsNotEmpty) {
-            errorLastName.style.display = displayNone;
-            lastName.setCustomValidity("Empty field!");
+            setError(errorLastName, lastName, "Empty last name");
         }
 
         else if (!thisIsLength && !thisHasNumber) {
-            errorLastName.style.display = displayNone;
-            lastName.setCustomValidity("Min 3 characters!");
+            setError(errorLastName, lastName, "Min 3 characters");
         }
 
         else if (thisIsLength && thisHasNumber) {
-            errorLastName.style.display = displayError;
-            errorLastName.style.color = displayErrorColor;
-            lastName.setCustomValidity("Don't use numbers here!");
+            setError(errorLastName, lastName, "Don't use numbers here");
         }
 
         else if (!thisIsLength && thisHasNumber) {
-            errorLastName.style.display = displayError;
-            errorLastName.style.color = displayErrorColor;
-            lastName.setCustomValidity("Min3 characters NO NUMBERS!");
+            setError(errorLastName, lastName, "Min 3 characters NO NUMBERS");
         }
 
         else {
-            errorLastName.style.display = displayNone;
-            lastName.setCustomValidity("Invalid field");
+            setError(errorLastName, lastName, "Invalid field");
         }
 
         return false;
@@ -134,10 +128,8 @@ function validarEmail() {
 
     function isValidEmail(valor) {
         if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(valor)) {
-            // email.setCustomValidity("");
             return (true);
         }
-        // email.setCustomValidity("Invalid email!");
         return (false);
     }
 
@@ -145,7 +137,26 @@ function validarEmail() {
     let thisIsLength = isLength(email.value);
     let thisIsEmail = isValidEmail(email.value);
 
-    
+    if (thisIsNotEmpty && thisIsLength && thisIsEmail) {
+        email.setCustomValidity("");
+        errorEmail.style.display = "none";
+        return true;
+    } else {
+
+        if (!thisIsNotEmpty) {
+            setError(errorEmail, email, "Empty email");
+        }
+
+        else if (!thisIsLength && !thisIsEmail) {
+            setError(errorEmail, email, "This is not an email")
+        }
+
+        else {
+            setError(errorEmail, email, "Invalid email")
+        }
+
+        return false;
+    }
 }
 
 function validarAddress() {
@@ -154,78 +165,69 @@ function validarAddress() {
 
     if (thisIsNotEmpty && thisIsLength) {
         address.setCustomValidity("");
-        errorAddress.style.display = displayNone;
+        errorAddress.style.display = "none";
         return true;
     } else {
 
         if (!thisIsNotEmpty) {
-            errorAddress.style.display = displayNone;
-            address.setCustomValidity("Empty field!");
+            setError(errorAddress, address, "Empty address");
         }
 
         else if (!thisIsLength) {
-            errorAddress.style.display = displayNone;
-            address.setCustomValidity("Min 3 characters!");
+            setError(errorAddress, address, "Min 3 characters");
         }
 
         else {
-            errorAddress.style.display = displayNone;
-            address.setCustomValidity("Invalid field");
+            setError(errorAddress, address, "Invalid field");
         }
 
         return false;
     }
-
 }
 
 function validarPassword() {
     let thisIsNotEmpty = isNotEmpty(password.value);
     let thisIsLength = isLength(password.value, 4);
+    let thisHasMax8 = password.value.length <= 8;
     let thisHasLetter = hasLetter(password.value);
     let thisHasNumber = hasNumber(password.value);
 
-    if (thisIsNotEmpty && thisIsLength && thisHasLetter && thisHasNumber) {
+    if (thisIsNotEmpty && thisIsLength && thisHasMax8 && thisHasLetter && thisHasNumber) {
         password.setCustomValidity("");
-        errorPassword.style.display = displayNone;
+        errorPassword.style.display = "none";
         return true;
     } else {
 
         if (!thisIsNotEmpty) {
-            errorPassword.style.display = displayNone;
-            password.setCustomValidity("Empty password!");
+            setError(errorPassword, password, "Empty password");
         }
 
         else if (thisIsLength && thisHasLetter && !thisHasNumber) {
-            errorPassword.style.display = displayError;
-            errorPassword.style.color = displayErrorColor;
-            password.setCustomValidity("Use letters and NUMBERS TOO!");
+            setError(errorPassword, password, "Use letters and NUMBERS TOO");
         }
 
-        else if (thisIsLength && !thisHasLetter && thisHasNumber) {
-            errorPassword.style.display = displayError;
-            errorPassword.style.color = displayErrorColor;
-            password.setCustomValidity("Use numbers and LETTERS TOO!");
+        else if (thisIsLength && thisHasNumber && !thisHasLetter) {
+            setError(errorPassword, password, "Use numbers and LETTERS TOO");
         }
 
         else if (!thisIsLength && thisHasLetter && thisHasNumber) {
-            errorPassword.style.display = displayNone;
-            password.setCustomValidity("Min 4 characters!");
+            setError(errorPassword, password, "Min 4 characters");
         }
 
         else if (!thisIsLength && thisHasLetter && !thisHasNumber) {
-            errorPassword.style.display = displayNone;
-            password.setCustomValidity("Min 4 characters, with numbers too!");
+            setError(errorPassword, password, "Min 4 characters, with numbers too");
         }
 
         else if (!thisIsLength && !thisHasLetter && thisHasNumber) {
-            errorPassword.style.display = displayNone;
-            password.setCustomValidity("Min 4 characters, with letters too!");
+            setError(errorPassword, password, "Min 4 characters, with letters too");
         }
-        
+
+        else if (!thisHasMax8) {
+            setError(errorPassword, password, "Max 8 characters, letters and numbers");
+        }
 
         else {
-            errorPassword.style.display = displayNone;
-            password.setCustomValidity("Min 4 characters, letters and numbers!");
+            setError(errorPassword, password, "Min 4 characters, letters and numbers");
         }
 
         return false;
@@ -233,7 +235,31 @@ function validarPassword() {
 }
 
 function validarPhone() {
+    let thisIsNotEmpty = isNotEmpty(phone.value);
+    let thisIsLength = isLength(phone.value);
+    let thisHasLetter = hasLetter(phone.value);
+    let thisHasNumber = hasNumber(phone.value);
 
+    if (thisIsNotEmpty && thisIsLength && thisHasNumber && !thisHasLetter) {
+        phone.setCustomValidity("");
+        errorPhone.style.display = "none";
+        return true;
+    } else {
+
+        if (!thisIsNotEmpty) {
+            setError(errorPhone, phone, "A phone number is required");
+        }
+
+        else if (!thisIsLength && thisHasNumber && !thisHasLetter) {
+            setError(errorPhone, phone, "Min 3 characteres");
+        }
+
+        else {
+            setError(errorPhone, phone, "Invalid phone number");
+        }
+
+        return false;
+    }
 }
 
 // Exercise 8
