@@ -1,5 +1,5 @@
-# Sprint 3 IT Academy | Shop | Nivel 1 y Nivel 2
+# Sprint 3 IT Academy | Shop | Nivel 3
 
 ## PRESENTACIÓN DE LA RAMA
 
-Nivel 1 y nivel 2 (ejercicios de 1 a 9)
+Nivel 3 (ejercicios 10 y 11)
