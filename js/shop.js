@@ -110,18 +110,6 @@ function applyPromotions() {
             }
         }
 
-        /*
-        switch (item.id) {
-            case 1:
-                discount(quantity = 3, newPrice = 10);
-                break;
-
-            case 3:
-                discount(quantity = 10, newPrice = item.price * (2 / 3));
-                break;
-        }
-        */
-
         discounts.forEach(disco => {
             if (disco.id === item.id) {
                 if (disco.expire != "") {
