@@ -24,19 +24,26 @@ phone.addEventListener('input', validarPhone);
 
 
 // Funciones de uso general para determinar estados de valores
-function isNotEmpty(valor) {
+const isNotEmpty = function (valor) {
     return valor.length != 0;
 }
 
-function isLength(valor, index = 3) {
+const isValidEmail = function (valor) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(valor)) {
+        return (true);
+    }
+    return (false);
+}
+
+const isLength = function (valor, index = 3) {
     return valor.length >= index;
 }
 
-function hasNumber(valor) {
+const hasNumber = function (valor) {
     return /\d/.test(valor);
 }
 
-function hasLetter(valor) {
+const hasLetter = function (valor) {
     for (var i = 0; i < valor.length; i++) {
         let ascii = valor.toUpperCase().charCodeAt(i);
         if (ascii > 64 && ascii < 91) {
@@ -46,7 +53,8 @@ function hasLetter(valor) {
     return false;
 }
 
-function setError(error, field, text) {
+// Modificar estilo input invalido
+const setError = function (error, field, text) {
     error.innerHTML = text;
     error.style.display = "inline";
     error.style.color = "lightcoral";
@@ -125,14 +133,6 @@ function validarLastName() {
 }
 
 function validarEmail() {
-
-    function isValidEmail(valor) {
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(valor)) {
-            return (true);
-        }
-        return (false);
-    }
-
     let thisIsNotEmpty = isNotEmpty(email.value);
     let thisIsLength = isLength(email.value);
     let thisIsEmail = isValidEmail(email.value);
