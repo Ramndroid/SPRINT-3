@@ -7,6 +7,15 @@ request.responseType = 'json';
 request.send();
 request.onload = function () { products = request.response; }
 
+// Get Discounts[]
+var discounts = [];
+const requestURLDiscounts = '../json/discounts.json';
+const requestDiscounts = new XMLHttpRequest();
+requestDiscounts.open('GET', requestURLDiscounts);
+requestDiscounts.responseType = 'json';
+requestDiscounts.send();
+requestDiscounts.onload = function () { discounts = requestDiscounts.response; }
+
 // CART []
 var cart = [];
 
@@ -63,25 +72,64 @@ function addToCart(id) {
 function applyPromotions() {
     // Apply promotions to each item in the array "cart"
     cart.forEach(item => {
-        switch (item.name) {
-            case 'cooking oil':
-                if (item.quantity >= 3) {
-                    let newCookinOilPrice = 10;
-                    item.subtotalWithDiscount = newCookinOilPrice * item.quantity;
-                } else {
-                    item.subtotalWithDiscount = 0;
+
+        function applyDiscount(quantity, newPrice) {
+            if (item.quantity >= quantity) {
+                item.subtotalWithDiscount = newPrice * item.quantity;
+            } else {
+                item.subtotalWithDiscount = 0;
+            }
+        }
+
+        function searchAndApplyDiscount(disco) {
+            if (disco.newprice > 0) {
+                applyDiscount(
+                    quantity = disco.quantity,
+                    newPrice = disco.newprice
+                );
+
+            } else {
+                if (disco.newpricepercent.indexOf("/") > 0
+                    && disco.newpricepercent.length == 3
+                    && !isNaN(disco.newpricepercent[0])
+                    && !isNaN(disco.newpricepercent[2])
+                ) {
+                    let price =
+                        item.price * (disco.newpricepercent[0] / disco.newpricepercent[2]);
+
+                    applyDiscount(
+                        quantity = disco.quantity,
+                        newPrice = price
+                    );
+                } else if (!isNaN(disco.newpricepercent)) {
+                    applyDiscount(
+                        quantity = disco.quantity,
+                        newPrice = item.price * disco.newpricepercent
+                    );
                 }
+            }
+        }
+
+        /*
+        switch (item.id) {
+            case 1:
+                discount(quantity = 3, newPrice = 10);
                 break;
 
-            case 'Instant cupcake mixture':
-                if (item.quantity >= 10) {
-                    let newMixturePrice = 2 / 3;
-                    item.subtotalWithDiscount = item.price * newMixturePrice * item.quantity;
-                } else {
-                    item.subtotalWithDiscount = 0;
-                }
+            case 3:
+                discount(quantity = 10, newPrice = item.price * (2 / 3));
                 break;
         }
+        */
+
+        discounts.forEach(disco => {
+            if (disco.id === item.id) {
+                if (disco.expire != "") {
+                    if (new Date() < new Date(disco.expire))
+                        searchAndApplyDiscount(disco);
+                } else searchAndApplyDiscount(disco);
+            }
+        });
     });
 }
 
@@ -96,23 +144,20 @@ function calculateSubtotals() {
         switch (product.type) {
             case 'grocery':
                 subtotal.grocery.value += product.subtotal;
-                if (product.subtotalWithDiscount > 0) {
+                if (product.subtotalWithDiscount > 0) 
                     subtotal.grocery.discount += product.subtotal - product.subtotalWithDiscount;
-                }
                 break;
 
             case 'beauty':
                 subtotal.beauty.value += product.subtotal;
-                if (product.subtotalWithDiscount > 0) {
+                if (product.subtotalWithDiscount > 0)
                     subtotal.beauty.discount += product.subtotal - product.subtotalWithDiscount;
-                }
                 break;
 
             case 'clothes':
                 subtotal.clothes.value += product.subtotal;
-                if (product.subtotalWithDiscount > 0) {
+                if (product.subtotalWithDiscount > 0)
                     subtotal.clothes.discount += product.subtotal - product.subtotalWithDiscount;
-                }
                 break;
         }
     });
@@ -270,8 +315,8 @@ function generateDOMCart() {
         anidar(containerInformacion, rowPrecioUnidad);
         let colPrecioUnidad = createDomElement('div', 'col-10 d-flex justify-content-between align-items-end mt-1 text-italic');
         anidar(rowPrecioUnidad, colPrecioUnidad);
-        anidar(colPrecioUnidad, createDomElement(rotulo2, 'font-italic text-secondary', 'Precio Unidad:'));
-        anidar(colPrecioUnidad, createDomElement(rotulo2, 'ml-5 font-italic text-secondary', `${item.price} €`));
+        anidar(colPrecioUnidad, createDomElement(rotulo2, 'font-italic text-secondary', '$/unit:'));
+        anidar(colPrecioUnidad, createDomElement(rotulo2, 'ml-5 font-italic text-secondary', `$ ${item.price.toFixed(2)}`));
 
         // SE MOSTRARÁ O NO INFORMACIÓN SOBRE DESCUENTOS
         if (item.subtotalWithDiscount > 0) {
@@ -285,24 +330,24 @@ function generateDOMCart() {
             anidar(containerDescuentos, rowSubtotalSinDesc);
             let colSubtotalSinDesc = createDomElement('div', 'col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic');
             anidar(rowSubtotalSinDesc, colSubtotalSinDesc);
-            anidar(colSubtotalSinDesc, createDomElement(rotulo2, 'font-italic text-secondary', 'Subtotal sin descuento:'));
-            anidar(colSubtotalSinDesc, createDomElement(rotulo2, 'ml-5 font-italic text-secondary', `${item.subtotal} €`));
+            anidar(colSubtotalSinDesc, createDomElement(rotulo2, 'font-italic text-secondary', 'Subtotal w/o discount:'));
+            anidar(colSubtotalSinDesc, createDomElement(rotulo2, 'ml-5 font-italic text-secondary', `$ ${item.subtotal.toFixed(2)}`));
 
             // DESCUENTO
             let rowDescuento = createDomElement('div', 'row justify-content-end');
             anidar(containerDescuentos, rowDescuento);
             let colDescuento = createDomElement('div', 'col-10 d-flex justify-content-between align-items-end mt-1 text-italic');
             anidar(rowDescuento, colDescuento);
-            anidar(colDescuento, createDomElement(rotulo2, 'font-italic text-success', 'Descuento:'));
-            anidar(colDescuento, createDomElement(rotulo2, 'ml-5 font-italic text-success', `${item.subtotal - item.subtotalWithDiscount} €`));
+            anidar(colDescuento, createDomElement(rotulo2, 'font-italic text-success', 'Discount:'));
+            anidar(colDescuento, createDomElement(rotulo2, 'ml-5 font-italic text-success', `$ ${(item.subtotal - item.subtotalWithDiscount).toFixed(2)}`));
 
             // PRECIO UNIDAD CON DESCUENTO
             let rowPrecioUnidadConDescuento = createDomElement('div', 'row justify-content-end');
             anidar(containerDescuentos, rowPrecioUnidadConDescuento);
             let colPUCD = createDomElement('div', 'col-10 d-flex justify-content-between align-items-center mt-1 text-italic bg-warning');
             anidar(rowPrecioUnidadConDescuento, colPUCD);
-            anidar(colPUCD, createDomElement(rotulo2, 'font-italic text-white', 'Precio unidad c/descuento:'));
-            anidar(colPUCD, createDomElement(rotulo2, 'ml-5 font-italic text-white', `${item.subtotalWithDiscount / item.quantity} €`));
+            anidar(colPUCD, createDomElement(rotulo2, 'font-italic text-white', '$/unit w/discount'));
+            anidar(colPUCD, createDomElement(rotulo2, 'ml-5 font-italic text-white', `$ ${(item.subtotalWithDiscount / item.quantity).toFixed(2)}`));
 
             // CONTAINER SUBTOTAL CON DESCUENTO
             let containerSubtotalConDescuento = createDomElement('div', 'container');
@@ -314,7 +359,7 @@ function generateDOMCart() {
             let colSCD = createDomElement('div', 'col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic');
             anidar(rowSCD, colSCD);
             anidar(colSCD, createDomElement(rotulo1, '', 'Subtotal:'));
-            anidar(colSCD, createDomElement(rotulo1, 'ml-5', `${item.subtotalWithDiscount} €`));
+            anidar(colSCD, createDomElement(rotulo1, 'ml-5', `$ ${item.subtotalWithDiscount.toFixed(2)}`));
 
         } else {
             // SUBTOTAL
@@ -326,7 +371,7 @@ function generateDOMCart() {
             let colSubtotal = createDomElement('div', 'col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic');
             anidar(rowSubtotal, colSubtotal);
             anidar(colSubtotal, createDomElement(rotulo1, '', 'Subtotal:'));
-            anidar(colSubtotal, createDomElement(rotulo1, 'ml-5', `${item.subtotal} €`));
+            anidar(colSubtotal, createDomElement(rotulo1, 'ml-5', `$ ${item.subtotal.toFixed(2)}`));
         }
 
 
@@ -341,7 +386,7 @@ function generateDOMCart() {
         let contenedorTotal = createDomElement('div', 'bg-primary text-white d-flex justify-content-between p-2 mb-3');
         anidar(totalCarrito, contenedorTotal);
         anidar(contenedorTotal, createDomElement('h4', 'font-weight-bold', 'TOTAL'));
-        anidar(contenedorTotal, createDomElement('h4', 'font-weight-bold', `${total} €`));
+        anidar(contenedorTotal, createDomElement('h4', 'font-weight-bold', `$ ${total.toFixed(2)}`));
     } else {
         let contenedorCarritoVacio = createDomElement('div', 'bg-primary text-white d-flex justify-content-center p-2 mb-3');
         anidar(totalCarrito, contenedorCarritoVacio);
