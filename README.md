@@ -2,4 +2,6 @@
 
 ## PRESENTACIÓN DE LA RAMA
 
-Nivel 1 y nivel 2 (ejercicios de 1 a 9)
+Nivel 1 y nivel 2 (ejercicios de 1 a 9).
+
+Es necesario abrir el index.html con Live Server a fin de cargar correctamente los archivos json de los productos[] y los descuentos [].

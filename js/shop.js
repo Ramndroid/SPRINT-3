@@ -1,60 +1,21 @@
-// If you have time, you can move this variable "products" to a json file and load the data in this js. It will look more professional
-var products = [
-    {
-        id: 1,
-        name: 'cooking oil',
-        price: 10.5,
-        type: 'grocery'
-    },
-    {
-        id: 2,
-        name: 'Pasta',
-        price: 6.25,
-        type: 'grocery'
-    },
-    {
-        id: 3,
-        name: 'Instant cupcake mixture',
-        price: 5,
-        type: 'grocery'
-    },
-    {
-        id: 4,
-        name: 'All-in-one',
-        price: 260,
-        type: 'beauty'
-    },
-    {
-        id: 5,
-        name: 'Zero Make-up Kit',
-        price: 20.5,
-        type: 'beauty'
-    },
-    {
-        id: 6,
-        name: 'Lip Tints',
-        price: 12.75,
-        type: 'beauty'
-    },
-    {
-        id: 7,
-        name: 'Lawn Dress',
-        price: 15,
-        type: 'clothes'
-    },
-    {
-        id: 8,
-        name: 'Lawn-Chiffon Combo',
-        price: 19.99,
-        type: 'clothes'
-    },
-    {
-        id: 9,
-        name: 'Toddler Frock',
-        price: 9.99,
-        type: 'clothes'
-    }
-]
+// Get Products []
+var products = [];
+const requestURL = '../json/products.json';
+const request = new XMLHttpRequest();
+request.open('GET', requestURL);
+request.responseType = 'json';
+request.send();
+request.onload = function () { products = request.response; }
+
+// Get Discounts[]
+var discounts = [];
+const requestURLDiscounts = '../json/discounts.json';
+const requestDiscounts = new XMLHttpRequest();
+requestDiscounts.open('GET', requestURLDiscounts);
+requestDiscounts.responseType = 'json';
+requestDiscounts.send();
+requestDiscounts.onload = function () { discounts = requestDiscounts.response; }
+
 // Array with products (objects) added directly with push(). Products in this array are repeated.
 var cartList = [];
 
@@ -157,34 +118,71 @@ function generateCart() {
 }
 
 // Exercise 6
-function applyPromotionsCart() {
+function applyPromotions() {
     // Apply promotions to each item in the array "cart"
     cart.forEach(item => {
-        switch (item.name) {
-            case 'cooking oil':
-                if (item.quantity >= 3) {
-                    let newCookinOilPrice = 10;
-                    item.subtotalWithDiscount = newCookinOilPrice * item.quantity;
-                } else {
-                    item.subtotalWithDiscount = 0;
-                }
-                break;
 
-            case 'Instant cupcake mixture':
-                if (item.quantity >= 10) {
-                    let newMixturePrice = 2 / 3;
-                    item.subtotalWithDiscount = item.price * newMixturePrice * item.quantity;
-                } else {
-                    item.subtotalWithDiscount = 0;
+        function applyDiscount(quantity, newPrice) {
+            if (item.quantity >= quantity) {
+                item.subtotalWithDiscount = newPrice * item.quantity;
+            } else {
+                item.subtotalWithDiscount = 0;
+            }
+        }
+
+        function searchAndApplyDiscount(disco) {
+            if (disco.newprice > 0) {
+                applyDiscount(
+                    quantity = disco.quantity,
+                    newPrice = disco.newprice
+                );
+
+            } else {
+                if (disco.newpricepercent.indexOf("/") > 0
+                    && disco.newpricepercent.length == 3
+                    && !isNaN(disco.newpricepercent[0])
+                    && !isNaN(disco.newpricepercent[2])
+                ) {
+                    let price =
+                        item.price * (disco.newpricepercent[0] / disco.newpricepercent[2]);
+
+                    applyDiscount(
+                        quantity = disco.quantity,
+                        newPrice = price
+                    );
+                } else if (!isNaN(disco.newpricepercent)) {
+                    applyDiscount(
+                        quantity = disco.quantity,
+                        newPrice = item.price * disco.newpricepercent
+                    );
                 }
+            }
+        }
+
+        /*
+        switch (item.id) {
+            case 1:
+                discount(quantity = 3, newPrice = 10);
+                break;
+            case 3:
+                discount(quantity = 10, newPrice = item.price * (2 / 3));
                 break;
         }
+        */
+
+        discounts.forEach(disco => {
+            if (disco.id === item.id) {
+                if (disco.expire != "") {
+                    if (new Date() < new Date(disco.expire))
+                        searchAndApplyDiscount(disco);
+                } else searchAndApplyDiscount(disco);
+            }
+        });
     });
 }
 
 // Exercise 7
 function addToCart(id) {
-    // Refactor previous code in order to simplify it 
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
     products.forEach(product => {
@@ -225,23 +223,20 @@ function calculateSubtotalsCart() {
         switch (product.type) {
             case 'grocery':
                 subtotal.grocery.value += product.subtotal;
-                if (product.subtotalWithDiscount > 0) {
+                if (product.subtotalWithDiscount > 0) 
                     subtotal.grocery.discount += product.subtotal - product.subtotalWithDiscount;
-                }
                 break;
 
             case 'beauty':
                 subtotal.beauty.value += product.subtotal;
-                if (product.subtotalWithDiscount > 0) {
+                if (product.subtotalWithDiscount > 0)
                     subtotal.beauty.discount += product.subtotal - product.subtotalWithDiscount;
-                }
                 break;
 
             case 'clothes':
                 subtotal.clothes.value += product.subtotal;
-                if (product.subtotalWithDiscount > 0) {
+                if (product.subtotalWithDiscount > 0)
                     subtotal.clothes.discount += product.subtotal - product.subtotalWithDiscount;
-                }
                 break;
         }
     });
@@ -262,6 +257,11 @@ function calculateTotalCart() {
 }
 
 // Exercise 9
+function removeCart() {
+    cart = [];
+    printCart();
+}
+
 function removeFromCart(id) {
     for (let i = 0; i < cart.length; i++) {
         if (cart[i].id === id) {
@@ -302,8 +302,9 @@ function addFromCart(id) {
 
 // Exercise 10
 function printCart() {
+
     // Aplicar promociones a 'cart'
-    applyPromotionsCart();
+    applyPromotions();
 
     // Calcular subtotales
     calculateSubtotalsCart();
@@ -311,160 +312,142 @@ function printCart() {
     // Calcular total
     calculateTotalCart();
 
-    let lista = document.getElementById("lista");
-    lista.innerHTML = '';
+    // Mostrar cart
+    generateDOMCart();
 
-    function createDomElement(element, classes) {
+}
+
+// GENERATE DOM CART
+function generateDOMCart() {
+    let rotulo1 = 'h5';
+    let rotulo2 = 'h6';
+
+    function createDomElement(element, classes, inner, fun) {
         let el = document.createElement(element);
         if (classes.length > 0) {
             el.className = classes;
-            return el;
+        }
+        if (inner != null) {
+            el.innerHTML = inner;
+        }
+        if (fun != null) {
+            el.onclick = fun;
         }
         return el;
     }
 
+    function anidar(padre, hijo) {
+        padre.appendChild(hijo);
+    }
+
+    // Vincular lista del DOM y resetearla
+    let lista = document.getElementById("lista");
+    lista.innerHTML = '';
+
     // CADA ITEM DEL CARRITO REPRESENTADO EN 'LI'
     cart.forEach(item => {
+
         // ELEMENTO LI - PRINCIPAL
         let entry = createDomElement('li', 'list-group-item');
-        lista.appendChild(entry);
+        anidar(lista, entry);
+
         // CABECERA DE PRODUCTO
         let divTitulo = createDomElement('div', 'd-flex justify-content-between align-items-end bg-info');
-        entry.appendChild(divTitulo);
+        anidar(entry, divTitulo);
         // NOMBRE PRODUCTO H5
-        let divTituloH5 = createDomElement('h5', 'pl-3');
-        divTituloH5.innerHTML = item.name.toUpperCase();
-        divTitulo.appendChild(divTituloH5);
-        // BOTÓN BORRAR - DIV
+        anidar(divTitulo, createDomElement(rotulo1, 'pl-3', item.name.toUpperCase()));
+        // BOTÓN BORRAR 
         let divTituloBoton = createDomElement('div', 'pl-5');
-        divTitulo.appendChild(divTituloBoton);
-        // BOTÓN BORRAR - BUTTON
-        let botonEliminarElemento = createDomElement('button', 'btn btn-outline-light btn-sm m-2');
-        botonEliminarElemento.onclick = function () { removeElementFromCart(item.id) };
-        divTituloBoton.appendChild(botonEliminarElemento);
-        // BOTÓN BORRAR - ICONO
-        let botonEliminarElementoIcono = createDomElement('i', 'fas fa-trash-alt');
-        botonEliminarElemento.appendChild(botonEliminarElementoIcono);
+        anidar(divTitulo, divTituloBoton);
+        let botonEliminarElemento = createDomElement('button', 'btn btn-outline-light btn-sm m-2', ``, function () { removeElementFromCart(item.id) });
+        anidar(divTituloBoton, botonEliminarElemento);
+        anidar(botonEliminarElemento, createDomElement('i', 'fas fa-trash-alt'));
 
 
         // CONTAINER INFORMACIÓN DEL PRODUCTO EN EL CARRITO
         let containerInformacion = createDomElement('div', 'container');
-        entry.appendChild(containerInformacion);
+        anidar(entry, containerInformacion);
         let rowQuantity = createDomElement('div', 'row justify-content-end');
-        containerInformacion.appendChild(rowQuantity);
+        anidar(containerInformacion, rowQuantity);
 
         // CANTIDAD EN EL CARRITO
         let colQuantity = createDomElement('div', 'col-10 span-4 d-flex justify-content-between align-items-end mt-1 text-italic');
-        rowQuantity.appendChild(colQuantity);
-        let rotuloQuantity = createDomElement('h6', 'font-italic text-secondary');
-        rotuloQuantity.innerHTML = 'Quantity:';
-        colQuantity.appendChild(rotuloQuantity);
+        anidar(rowQuantity, colQuantity);
+        anidar(colQuantity, createDomElement(rotulo2, 'font-italic text-secondary', 'Quantity:'));
 
         // BOTONES - + PARA LA CANTIDAD
         let divBotonesQuantity = createDomElement('div', 'd-flex');
-        colQuantity.appendChild(divBotonesQuantity);
-        let botonRestarCantidad = createDomElement('button', 'btn btn-secondary btn-sm p-1');
-        botonRestarCantidad.innerHTML = '-';
-        botonRestarCantidad.onclick = function () { removeFromCart(item.id) };
-        divBotonesQuantity.appendChild(botonRestarCantidad);
-        let botonAnadirCantidad = createDomElement('button', 'btn btn-secondary btn-sm p-1 ml-1');
-        botonAnadirCantidad.innerHTML = '+';
-        botonAnadirCantidad.onclick = function () { addFromCart(item.id) };
-        divBotonesQuantity.appendChild(botonAnadirCantidad);
+        anidar(colQuantity, divBotonesQuantity);
+        anidar(divBotonesQuantity, createDomElement('button', 'btn btn-secondary btn-sm p-1', '-', function () { removeFromCart(item.id) }));
+        anidar(divBotonesQuantity, createDomElement('button', 'btn btn-secondary btn-sm p-1 ml-1', '+', function () { addFromCart(item.id) }));
 
         // TEXTO PARA INDICAR LA CANTIDAD
         let divTextoQuantity = createDomElement('div', 'd-flex justify-content-end align-items-end mt-4');
-        colQuantity.appendChild(divTextoQuantity);
-        let textoQuantity = createDomElement('h6', 'font-italic text-secondary ml-5');
-        textoQuantity.innerHTML = item.quantity;
-        divTextoQuantity.appendChild(textoQuantity);
+        anidar(colQuantity, divTextoQuantity);
+        anidar(divTextoQuantity, createDomElement(rotulo2, 'font-italic text-secondary ml-5', item.quantity));
 
         // PRECIO UNIDAD
         let rowPrecioUnidad = createDomElement('div', 'row justify-content-end');
-        containerInformacion.appendChild(rowPrecioUnidad);
+        anidar(containerInformacion, rowPrecioUnidad);
         let colPrecioUnidad = createDomElement('div', 'col-10 d-flex justify-content-between align-items-end mt-1 text-italic');
-        rowPrecioUnidad.appendChild(colPrecioUnidad);
-        let rotuloPrecioUnidad = createDomElement('h6', 'font-italic text-secondary');
-        rotuloPrecioUnidad.innerHTML = 'Precio Unidad:';
-        colPrecioUnidad.appendChild(rotuloPrecioUnidad);
-        let textoPrecioUnidad = createDomElement('h6', 'ml-5 font-italic text-secondary');
-        textoPrecioUnidad.innerHTML = `${item.price} €`;
-        colPrecioUnidad.appendChild(textoPrecioUnidad);
+        anidar(rowPrecioUnidad, colPrecioUnidad);
+        anidar(colPrecioUnidad, createDomElement(rotulo2, 'font-italic text-secondary', '$/unit:'));
+        anidar(colPrecioUnidad, createDomElement(rotulo2, 'ml-5 font-italic text-secondary', `$ ${item.price.toFixed(2)}`));
 
         // SE MOSTRARÁ O NO INFORMACIÓN SOBRE DESCUENTOS
         if (item.subtotalWithDiscount > 0) {
 
             // CONTAINER DETALLE DESCUENTOS Y SUBTOTAL
             let containerDescuentos = createDomElement('div', 'container');
-            entry.appendChild(containerDescuentos);
+            anidar(entry, containerDescuentos);
 
             // SUBTOTAL SIN DESCUENTOS
             let rowSubtotalSinDesc = createDomElement('div', 'row justify-content-end');
-            containerDescuentos.appendChild(rowSubtotalSinDesc);
+            anidar(containerDescuentos, rowSubtotalSinDesc);
             let colSubtotalSinDesc = createDomElement('div', 'col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic');
-            rowSubtotalSinDesc.appendChild(colSubtotalSinDesc);
-            let rotuloSubtotalSinDesc = createDomElement('h6', 'font-italic text-secondary');
-            rotuloSubtotalSinDesc.innerHTML = 'Subtotal sin descuento:';
-            colSubtotalSinDesc.appendChild(rotuloSubtotalSinDesc);
-            let textoSubtotalSinDesc = createDomElement('h6', 'ml-5 font-italic text-secondary');
-            textoSubtotalSinDesc.innerHTML = `${item.subtotal} €`;
-            colSubtotalSinDesc.appendChild(textoSubtotalSinDesc);
+            anidar(rowSubtotalSinDesc, colSubtotalSinDesc);
+            anidar(colSubtotalSinDesc, createDomElement(rotulo2, 'font-italic text-secondary', 'Subtotal w/o discount:'));
+            anidar(colSubtotalSinDesc, createDomElement(rotulo2, 'ml-5 font-italic text-secondary', `$ ${item.subtotal.toFixed(2)}`));
 
             // DESCUENTO
             let rowDescuento = createDomElement('div', 'row justify-content-end');
-            containerDescuentos.appendChild(rowDescuento);
+            anidar(containerDescuentos, rowDescuento);
             let colDescuento = createDomElement('div', 'col-10 d-flex justify-content-between align-items-end mt-1 text-italic');
-            rowDescuento.appendChild(colDescuento);
-            let rotuloDescuento = createDomElement('h6', 'font-italic text-success');
-            rotuloDescuento.innerHTML = 'Descuento:';
-            colDescuento.appendChild(rotuloDescuento);
-            let textoDescuento = createDomElement('h6', 'ml-5 font-italic text-success');
-            textoDescuento.innerHTML = `${item.subtotal - item.subtotalWithDiscount} €`;
-            colDescuento.appendChild(textoDescuento);
+            anidar(rowDescuento, colDescuento);
+            anidar(colDescuento, createDomElement(rotulo2, 'font-italic text-success', 'Discount:'));
+            anidar(colDescuento, createDomElement(rotulo2, 'ml-5 font-italic text-success', `$ ${(item.subtotal - item.subtotalWithDiscount).toFixed(2)}`));
 
             // PRECIO UNIDAD CON DESCUENTO
             let rowPrecioUnidadConDescuento = createDomElement('div', 'row justify-content-end');
-            containerDescuentos.appendChild(rowPrecioUnidadConDescuento);
+            anidar(containerDescuentos, rowPrecioUnidadConDescuento);
             let colPUCD = createDomElement('div', 'col-10 d-flex justify-content-between align-items-center mt-1 text-italic bg-warning');
-            rowPrecioUnidadConDescuento.appendChild(colPUCD);
-            let rotuloPUCD = createDomElement('h6', 'font-italic text-white');
-            rotuloPUCD.innerHTML = 'Precio unidad c/descuento:';
-            colPUCD.appendChild(rotuloPUCD);
-            let textoPUCD = createDomElement('h6', 'ml-5 font-italic text-white');
-            textoPUCD.innerHTML = `${item.subtotalWithDiscount / item.quantity} €`;
-            colPUCD.appendChild(textoPUCD);
+            anidar(rowPrecioUnidadConDescuento, colPUCD);
+            anidar(colPUCD, createDomElement(rotulo2, 'font-italic text-white', '$/unit w/discount'));
+            anidar(colPUCD, createDomElement(rotulo2, 'ml-5 font-italic text-white', `$ ${(item.subtotalWithDiscount / item.quantity).toFixed(2)}`));
 
             // CONTAINER SUBTOTAL CON DESCUENTO
             let containerSubtotalConDescuento = createDomElement('div', 'container');
-            entry.appendChild(containerSubtotalConDescuento);
+            anidar(entry, containerSubtotalConDescuento);
 
             // SUBTOTAL CON DESCUENTO
             let rowSCD = createDomElement('div', 'row justify-content-end');
-            containerSubtotalConDescuento.appendChild(rowSCD);
+            anidar(containerSubtotalConDescuento, rowSCD);
             let colSCD = createDomElement('div', 'col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic');
-            rowSCD.appendChild(colSCD);
-            let rotuloSCD = createDomElement('h5', '');
-            rotuloSCD.innerHTML = 'Subtotal:';
-            colSCD.appendChild(rotuloSCD);
-            let textoSCD = createDomElement('h5', 'ml-5');
-            textoSCD.innerHTML = `${item.subtotalWithDiscount} €`;
-            colSCD.appendChild(textoSCD);
+            anidar(rowSCD, colSCD);
+            anidar(colSCD, createDomElement(rotulo1, '', 'Subtotal:'));
+            anidar(colSCD, createDomElement(rotulo1, 'ml-5', `$ ${item.subtotalWithDiscount.toFixed(2)}`));
 
         } else {
             // SUBTOTAL
             let containerSubtotal = createDomElement('div', 'container');
-            entry.appendChild(containerSubtotal);
+            anidar(entry, containerSubtotal);
 
             let rowSubtotal = createDomElement('div', 'row justify-content-end');
-            containerSubtotal.appendChild(rowSubtotal);
+            anidar(containerSubtotal, rowSubtotal);
             let colSubtotal = createDomElement('div', 'col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic');
-            rowSubtotal.appendChild(colSubtotal);
-            let rotuloSubtotal = createDomElement('h5', '');
-            rotuloSubtotal.innerHTML = 'Subtotal:';
-            colSubtotal.appendChild(rotuloSubtotal);
-            let textoSubtotal = createDomElement('h5', 'ml-5');
-            textoSubtotal.innerHTML = `${item.subtotal} €`;
-            colSubtotal.appendChild(textoSubtotal);
+            anidar(rowSubtotal, colSubtotal);
+            anidar(colSubtotal, createDomElement(rotulo1, '', 'Subtotal:'));
+            anidar(colSubtotal, createDomElement(rotulo1, 'ml-5', `$ ${item.subtotal.toFixed(2)}`));
         }
 
 
@@ -477,20 +460,15 @@ function printCart() {
 
     if (total > 0) {
         let contenedorTotal = createDomElement('div', 'bg-primary text-white d-flex justify-content-between p-2 mb-3');
-        totalCarrito.appendChild(contenedorTotal);
-        let rotuloTotal = createDomElement('h4', 'font-weight-bold');
-        rotuloTotal.innerHTML = 'TOTAL';
-        contenedorTotal.appendChild(rotuloTotal);
-        let textoTotal = createDomElement('h4', 'font-weight-bold');
-        textoTotal.innerHTML = `${total} €`;
-        contenedorTotal.appendChild(textoTotal);
+        anidar(totalCarrito, contenedorTotal);
+        anidar(contenedorTotal, createDomElement('h4', 'font-weight-bold', 'TOTAL'));
+        anidar(contenedorTotal, createDomElement('h4', 'font-weight-bold', `$ ${total.toFixed(2)}`));
     } else {
         let contenedorCarritoVacio = createDomElement('div', 'bg-primary text-white d-flex justify-content-center p-2 mb-3');
-        totalCarrito.appendChild(contenedorCarritoVacio);
-        let carritoVacio = createDomElement('h4', 'font-weight-bold');
-        carritoVacio.innerHTML = 'Carrito vacío';
-        contenedorCarritoVacio.appendChild(carritoVacio);
+        anidar(totalCarrito, contenedorCarritoVacio);
+        anidar(contenedorCarritoVacio, createDomElement('h4', 'font-weight-bold', 'Carrito vacío'));
     }
+
 }
 
 // En esta funcion (en desuso) manipulo el dom literalmente mediante .innerHTML = `<div>...`;

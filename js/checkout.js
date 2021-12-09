@@ -24,19 +24,26 @@ phone.addEventListener('input', validarPhone);
 
 
 // Funciones de uso general para determinar estados de valores
-function isNotEmpty(valor) {
+const isNotEmpty = function (valor) {
     return valor.length != 0;
 }
 
-function isLength(valor, index = 3) {
+const isValidEmail = function (valor) {
+    if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(valor)) {
+        return (true);
+    }
+    return (false);
+}
+
+const isLength = function (valor, index = 3) {
     return valor.length >= index;
 }
 
-function hasNumber(valor) {
+const hasNumber = function (valor) {
     return /\d/.test(valor);
 }
 
-function hasLetter(valor) {
+const hasLetter = function (valor) {
     for (var i = 0; i < valor.length; i++) {
         let ascii = valor.toUpperCase().charCodeAt(i);
         if (ascii > 64 && ascii < 91) {
@@ -46,11 +53,20 @@ function hasLetter(valor) {
     return false;
 }
 
-function setError(error, field, text) {
+// Modificar estilo input inválido
+const setError = function (error, field, text) {
     error.innerHTML = text;
     error.style.display = "inline";
     error.style.color = "lightcoral";
     field.setCustomValidity(text);
+    return false;
+}
+
+// Modificar estilo input válido
+const setValid = function (error, field) {
+    field.setCustomValidity("");
+    error.style.display = "none";
+    return true;
 }
 
 // Funciones de validación para cada campo
@@ -59,33 +75,28 @@ function validarNombre() {
     let thisIsLength = isLength(userName.value);
     let thisHasNumber = hasNumber(userName.value);
 
-    if (thisIsNotEmpty && thisIsLength && !thisHasNumber) {
-        userName.setCustomValidity("");
-        errorName.style.display = "none";
-        return true;
-    } else {
+    if (thisIsNotEmpty && thisIsLength && !thisHasNumber)
+        return setValid(errorName, userName);
 
-        if (!thisIsNotEmpty) {
-            setError(errorName, userName, "Empty name");
-        }
+    else {
+        let answer = '';
 
-        else if (!thisIsLength && !thisHasNumber) {
-            setError(errorName, userName, "Min 3 characters");
-        }
+        if (!thisIsNotEmpty)
+            answer = "Empty name";
 
-        else if (thisIsLength && thisHasNumber) {
-            setError(errorName, userName, "Don't use numbers here");
-        }
+        else if (!thisIsLength && !thisHasNumber)
+            answer = "Min 3 characters";
 
-        else if (!thisIsLength && thisHasNumber) {
-            setError(errorName, userName, "Min 3 characters NO NUMBERS");
-        }
+        else if (thisIsLength && thisHasNumber)
+            answer = "Don't use numbers here";
 
-        else {
-            setError(errorName, userName, "Invalid field");
-        }
+        else if (!thisIsLength && thisHasNumber)
+            answer = "Min 3 characters NO NUMBERS";
 
-        return false;
+        else
+            answer = "Invalid field";
+
+        return setError(errorName, userName, answer);
     }
 }
 
@@ -94,68 +105,52 @@ function validarLastName() {
     let thisIsLength = isLength(lastName.value);
     let thisHasNumber = hasNumber(lastName.value);
 
-    if (thisIsNotEmpty && thisIsLength && !thisHasNumber) {
-        lastName.setCustomValidity("");
-        errorLastName.style.display = "none";
-        return true;
-    } else {
+    if (thisIsNotEmpty && thisIsLength && !thisHasNumber)
+        return setValid(errorLastName, lastName);
 
-        if (!thisIsNotEmpty) {
-            setError(errorLastName, lastName, "Empty last name");
-        }
+    else {
+        let answer = '';
 
-        else if (!thisIsLength && !thisHasNumber) {
-            setError(errorLastName, lastName, "Min 3 characters");
-        }
+        if (!thisIsNotEmpty)
+            answer = "Empty last name";
 
-        else if (thisIsLength && thisHasNumber) {
-            setError(errorLastName, lastName, "Don't use numbers here");
-        }
+        else if (!thisIsLength && !thisHasNumber)
+            answer = "Min 3 characters";
 
-        else if (!thisIsLength && thisHasNumber) {
-            setError(errorLastName, lastName, "Min 3 characters NO NUMBERS");
-        }
+        else if (thisIsLength && thisHasNumber)
+            answer = "Don't use numbers here";
 
-        else {
-            setError(errorLastName, lastName, "Invalid field");
-        }
+        else if (!thisIsLength && thisHasNumber)
+            answer = "Min 3 characters NO NUMBERS";
 
-        return false;
+        else
+            answer = "Invalid field";
+
+        return setError(errorLastName, lastName, answer);
     }
 }
 
 function validarEmail() {
-
-    function isValidEmail(valor) {
-        if (/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(valor)) {
-            return (true);
-        }
-        return (false);
-    }
-
     let thisIsNotEmpty = isNotEmpty(email.value);
     let thisIsLength = isLength(email.value);
     let thisIsEmail = isValidEmail(email.value);
 
-    if (thisIsNotEmpty && thisIsLength && thisIsEmail) {
-        email.setCustomValidity("");
-        errorEmail.style.display = "none";
-        return true;
-    } else {
+    if (thisIsNotEmpty && thisIsLength && thisIsEmail)
+        return setValid(errorEmail, email);
 
-        if (!thisIsNotEmpty) {
-            setError(errorEmail, email, "Empty email");
-        }
+    else {
+        let answer = '';
 
-        else if (!thisIsLength && !thisIsEmail) {
-            setError(errorEmail, email, "This is not an email")
-        }
+        if (!thisIsNotEmpty)
+            answer = "Empty email";
 
-        else {
-            setError(errorEmail, email, "Invalid email")
-        }
+        else if (!thisIsLength && !thisIsEmail)
+            answer = "This is not an email";
 
-        return false;
+        else
+            answer = "Invalid email";
+
+        return setError(errorEmail, email, answer);
     }
 }
 
@@ -163,25 +158,22 @@ function validarAddress() {
     let thisIsNotEmpty = isNotEmpty(address.value);
     let thisIsLength = isLength(address.value);
 
-    if (thisIsNotEmpty && thisIsLength) {
-        address.setCustomValidity("");
-        errorAddress.style.display = "none";
-        return true;
-    } else {
+    if (thisIsNotEmpty && thisIsLength)
+        return setValid(errorAddress, address);
 
-        if (!thisIsNotEmpty) {
-            setError(errorAddress, address, "Empty address");
-        }
+    else {
+        let answer = '';
 
-        else if (!thisIsLength) {
-            setError(errorAddress, address, "Min 3 characters");
-        }
+        if (!thisIsNotEmpty)
+            answer = "Empty address";
 
-        else {
-            setError(errorAddress, address, "Invalid field");
-        }
+        else if (!thisIsLength)
+            answer = "Min 3 characters";
 
-        return false;
+        else
+            answer = "Invalid field";
+
+        return setError(errorAddress, address, answer);
     }
 }
 
@@ -192,45 +184,37 @@ function validarPassword() {
     let thisHasLetter = hasLetter(password.value);
     let thisHasNumber = hasNumber(password.value);
 
-    if (thisIsNotEmpty && thisIsLength && thisHasMax8 && thisHasLetter && thisHasNumber) {
-        password.setCustomValidity("");
-        errorPassword.style.display = "none";
-        return true;
-    } else {
+    if (thisIsNotEmpty && thisIsLength && thisHasMax8
+        && thisHasLetter && thisHasNumber)
+        return setValid(errorPassword, password);
 
-        if (!thisIsNotEmpty) {
-            setError(errorPassword, password, "Empty password");
-        }
+    else {
+        let answer = '';
 
-        else if (thisIsLength && thisHasLetter && !thisHasNumber) {
-            setError(errorPassword, password, "Use letters and NUMBERS TOO");
-        }
+        if (!thisIsNotEmpty) answer = "Empty password";
 
-        else if (thisIsLength && thisHasNumber && !thisHasLetter) {
-            setError(errorPassword, password, "Use numbers and LETTERS TOO");
-        }
+        else if (thisIsLength && thisHasLetter && !thisHasNumber)
+            answer = "Use letters and NUMBERS TOO";
 
-        else if (!thisIsLength && thisHasLetter && thisHasNumber) {
-            setError(errorPassword, password, "Min 4 characters");
-        }
+        else if (thisIsLength && thisHasNumber && !thisHasLetter)
+            answer = "Use numbers and LETTERS TOO";
 
-        else if (!thisIsLength && thisHasLetter && !thisHasNumber) {
-            setError(errorPassword, password, "Min 4 characters, with numbers too");
-        }
+        else if (!thisIsLength && thisHasLetter && thisHasNumber)
+            answer = "Min 4 characters";
 
-        else if (!thisIsLength && !thisHasLetter && thisHasNumber) {
-            setError(errorPassword, password, "Min 4 characters, with letters too");
-        }
+        else if (!thisIsLength && thisHasLetter && !thisHasNumber)
+            answer = "Min 4 characters, with numbers too";
 
-        else if (!thisHasMax8) {
-            setError(errorPassword, password, "Max 8 characters, letters and numbers");
-        }
+        else if (!thisIsLength && !thisHasLetter && thisHasNumber)
+            answer = "Min 4 characters, with letters too";
 
-        else {
-            setError(errorPassword, password, "Min 4 characters, letters and numbers");
-        }
+        else if (!thisHasMax8)
+            answer = "Max 8 characters, letters and numbers";
 
-        return false;
+        else
+            answer = "Min 4 characters, letters and numbers";
+
+        return setError(errorPassword, password, answer);
     }
 }
 
@@ -240,31 +224,27 @@ function validarPhone() {
     let thisHasLetter = hasLetter(phone.value);
     let thisHasNumber = hasNumber(phone.value);
 
-    if (thisIsNotEmpty && thisIsLength && thisHasNumber && !thisHasLetter) {
-        phone.setCustomValidity("");
-        errorPhone.style.display = "none";
-        return true;
-    } else {
+    if (thisIsNotEmpty && thisIsLength && thisHasNumber && !thisHasLetter)
+        return setValid(errorPhone, phone);
+    
+    else {
+        let answer = '';
 
-        if (!thisIsNotEmpty) {
-            setError(errorPhone, phone, "A phone number is required");
-        }
+        if (!thisIsNotEmpty)
+            answer = "A phone number is required";
 
-        else if (!thisIsLength && thisHasNumber && !thisHasLetter) {
-            setError(errorPhone, phone, "Min 3 characteres");
-        }
+        else if (!thisIsLength && thisHasNumber && !thisHasLetter)
+            answer = "Min 3 characteres";
 
-        else {
-            setError(errorPhone, phone, "Invalid phone number");
-        }
+        else
+            answer = "Invalid phone number";
 
-        return false;
+        return setError(errorPhone, phone, answer);
     }
 }
 
 // Exercise 8
 function validate() {
-    // Validate fields entered by the user: name, phone, password, and email
     validarNombre();
     validarLastName();
     validarEmail();
