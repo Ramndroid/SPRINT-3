@@ -7,33 +7,66 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
     <!-- font awesome -->
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
         integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/main.css">
 
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/main.css">
     <title>ShopNow</title>
 </head>
 
 <body>
     <!-- header -->
-    <header class="m-5">
+    <!-- <header class="m-5">
         <h1 class="text-center m-5"><i class="fas fa-shopping-cart mr-2"></i> ShopNow</h1>
         <h3 class="text-center m-3">Welcome to your Online Shopping Store.</h3>
-    </header>
+    </header> -->
 
-    <!-- Buttons -->
-    <h3 class="text-center">Select your category:</h3>
-    <div class="text-center">
-        <button type="button" onclick="window.location.href = 'shop.html#grocery';" class="btn m-4 mt-5 btn btn-primary">Grocery</button>
-        <button type="button" onclick="window.location.href = 'shop.html#beauty';" class="btn m-4 mt-5 btn btn-primary">Beauty</button>
-        <button type="button" onclick="window.location.href = 'shop.html#clothes';" class="btn m-4 mt-5 btn btn-primary">Clothes</button>
-    </div>
+    <section>
+        <div class="container-fluid p-5">
+            <div class="row pt-3">
+                <div class="col-12 d-flex flex-column">
+                    <button type="button" onclick="window.location.href = 'shop.html#stationery';"
+                        class="btn btn-primary text-capitalize text-white shadow">
+                        <h5 class="">STATIONERY</h5>
+                        <img src="images/stationery-bg.jpg" alt="" class="img-fluid" style="width: 40%;">
+                    </button>
+                </div>
+            </div>
+
+            <div class="row pt-3">
+                <div class="col-12 d-flex flex-column">
+                    <button type="button" onclick="window.location.href = 'shop.html#makeup';"
+                        class="btn btn-primary text-capitalize text-white shadow">
+                        <h5 class="">MAKEUP</h5>
+                        <img src="images/makeup-bg.jpg" alt="" class="img-fluid" style="width: 40%;">
+                    </button>
+                </div>
+            </div>
+
+            <div class="row pt-3">
+                <div class="col-12 d-flex flex-column">
+                    <button type="button" onclick="window.location.href = 'shop.html#oil';"
+                        class="btn btn-primary text-capitalize text-white shadow">
+                        <h5 class="">ESSENTIAL OILS</h5>
+                        <img src="images/oil-bg.jpg" alt="" class="img-fluid" style="width: 40%;">
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+
+
+    </section>
+
 
     <!-- script tags -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+    <!-- <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
     </script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
@@ -41,7 +74,9 @@
     </script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-    </script>
+    </script> -->
+
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

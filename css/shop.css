@@ -24,3 +24,7 @@ body{
     right: 0;
     margin-right: 1rem;
 }
+
+#stationery, #makeup, #oil {
+    margin-bottom: 10rem !important;
+}

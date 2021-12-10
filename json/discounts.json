@@ -3,7 +3,7 @@
         "id": 1,
         "expire": "06/24/2023",
         "quantity": 3,
-        "newprice": 10,
+        "newprice": 3,
         "newpricepercent": ""
     },
     {
@@ -19,5 +19,12 @@
         "quantity": 10,
         "newprice": 0,
         "newpricepercent": "2/3"
+    },
+    {
+        "id": 8,
+        "expire": "",
+        "quantity": 3,
+        "newprice": 11,
+        "newpricepercent": ""
     }
   ]

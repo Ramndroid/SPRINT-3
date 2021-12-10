@@ -14,22 +14,25 @@ const requestDiscounts = new XMLHttpRequest();
 requestDiscounts.open('GET', requestURLDiscounts);
 requestDiscounts.responseType = 'json';
 requestDiscounts.send();
-requestDiscounts.onload = function () { discounts = requestDiscounts.response; }
+requestDiscounts.onload = function () {
+    discounts = requestDiscounts.response;
+    generateDOMProducts();
+}
 
 // CART []
 var cart = [];
 
 // SUBTOTAL {}
 var subtotal = {
-    grocery: {
+    stationery: {
         value: 0,
         discount: 0
     },
-    beauty: {
+    makeup: {
         value: 0,
         discount: 0
     },
-    clothes: {
+    oil: {
         value: 0,
         discount: 0
     },
@@ -40,6 +43,7 @@ var total = 0;
 
 // ADD TO CART
 function addToCart(id) {
+
     // 1. Loop for to the array products to get the item to add to cart
     // 2. Add found product to the cart array or update its quantity in case it has been added previously.
     products.forEach(product => {
@@ -66,6 +70,8 @@ function addToCart(id) {
             }
         }
     });
+
+    printMyCartText();
 }
 
 // APPLY PROMOTIONS CART
@@ -130,22 +136,22 @@ function calculateSubtotals() {
 
     cart.forEach(product => {
         switch (product.type) {
-            case 'grocery':
-                subtotal.grocery.value += product.subtotal;
-                if (product.subtotalWithDiscount > 0) 
-                    subtotal.grocery.discount += product.subtotal - product.subtotalWithDiscount;
+            case 'stationery':
+                subtotal.stationery.value += product.subtotal;
+                if (product.subtotalWithDiscount > 0)
+                    subtotal.stationery.discount += product.subtotal - product.subtotalWithDiscount;
                 break;
 
-            case 'beauty':
-                subtotal.beauty.value += product.subtotal;
+            case 'makeup':
+                subtotal.makeup.value += product.subtotal;
                 if (product.subtotalWithDiscount > 0)
-                    subtotal.beauty.discount += product.subtotal - product.subtotalWithDiscount;
+                    subtotal.makeup.discount += product.subtotal - product.subtotalWithDiscount;
                 break;
 
-            case 'clothes':
-                subtotal.clothes.value += product.subtotal;
+            case 'oil':
+                subtotal.oil.value += product.subtotal;
                 if (product.subtotalWithDiscount > 0)
-                    subtotal.clothes.discount += product.subtotal - product.subtotalWithDiscount;
+                    subtotal.oil.discount += product.subtotal - product.subtotalWithDiscount;
                 break;
         }
     });
@@ -169,6 +175,7 @@ function calculateTotal() {
 function removeCart() {
     cart = [];
     printCart();
+    printMyCartText();
 }
 
 // REMOVE 1 U. FROM CART
@@ -185,6 +192,7 @@ function removeFromCart(id) {
     }
 
     printCart();
+    printMyCartText();
 }
 
 // REMOVE ITEM FROM CART
@@ -196,6 +204,7 @@ function removeElementFromCart(id) {
     }
 
     printCart();
+    printMyCartText();
 }
 
 // ADD 1 U. TO CART
@@ -210,6 +219,22 @@ function addFromCart(id) {
     }
 
     printCart();
+    printMyCartText();
+}
+
+// MODIFICAR LA CANTIDAD EN 'My Cart ()'
+function printMyCartText() {
+    let myCart = document.getElementById('myCart');
+    let totalProducts = 0;
+    cart.forEach(product => {
+        totalProducts += product.quantity;
+    });
+    if (totalProducts > 0) {
+        myCart.innerHTML = `My Cart (${totalProducts})`;
+    } else {
+        myCart.innerHTML = `My Cart`;
+    }
+
 }
 
 // PRINT CART
@@ -229,28 +254,29 @@ function printCart() {
 
 }
 
+// MANIPULAR EL DOM
+function createDomElement(element, classes, inner, fun) {
+    let el = document.createElement(element);
+    if (classes.length > 0) {
+        el.className = classes;
+    }
+    if (inner != null) {
+        el.innerHTML = inner;
+    }
+    if (fun != null) {
+        el.onclick = fun;
+    }
+    return el;
+}
+
+function anidar(padre, hijo) {
+    padre.appendChild(hijo);
+}
+
 // GENERATE DOM CART
 function generateDOMCart() {
     let rotulo1 = 'h5';
     let rotulo2 = 'h6';
-
-    function createDomElement(element, classes, inner, fun) {
-        let el = document.createElement(element);
-        if (classes.length > 0) {
-            el.className = classes;
-        }
-        if (inner != null) {
-            el.innerHTML = inner;
-        }
-        if (fun != null) {
-            el.onclick = fun;
-        }
-        return el;
-    }
-
-    function anidar(padre, hijo) {
-        padre.appendChild(hijo);
-    }
 
     // Vincular lista del DOM y resetearla
     let lista = document.getElementById("lista");
@@ -381,5 +407,83 @@ function generateDOMCart() {
         anidar(contenedorCarritoVacio, createDomElement('h4', 'font-weight-bold', 'Carrito vacío'));
     }
 
+}
+
+function generateDOMProducts() {
+    // Get elements by ID
+    var stationery = document.getElementById('stationery');
+    var makeup = document.getElementById('makeup');
+    var oil = document.getElementById('oil');
+
+    console.log(products.length);
+
+    products.forEach(product => {
+
+        /*
+        <div
+          class="card my-cards border-white shadow align-self-start align-self-sm-start align-self-md-start align-self-lg-start">
+          <div class="d-flex flex-column px-4 mt-4">
+            <h5 class="card-title fs-4 fw-bold text-primary">All-in-1</h5>
+            <div class="d-flex justify-content-between mb-4">
+              <h5 class="card-title text-center text-white fst-italic bg-warning">Special offer</h5>
+              <h2 class="card-text text-muted text-end">$260</h2>
+            </div>
+          </div>
+          <div class="d-flex flex-column px-4 mb-3">
+            <img class="card-img mx-auto" src="./images/makeup-1.jpg">
+            <button type="button" onclick="addToCart(4)" class="btn btn-primary btn-cards text-white align-self-center mt-3">Add to cart</button>
+          </div>
+        </div> 
+        */
+
+
+        let divCard = createDomElement('div', 'card my-cards border-white shadow align-self-start align-self-sm-start align-self-md-start align-self-lg-start');
+
+        switch (product.type) {
+            case "stationery": anidar(stationery, divCard);
+                break;
+            case "makeup": anidar(makeup, divCard);
+                break;
+            case "oil": anidar(oil, divCard);
+                break;
+        }
+
+        let divBody = createDomElement('div', 'd-flex flex-column px-4 mt-4');
+        anidar(divCard, divBody);
+        anidar(divBody, createDomElement('h5', 'card-title fs-4 fw-bold text-primary', product.name));
+        let divOfertaYPrecio = createDomElement('div', 'd-flex justify-content-between mb-4');
+        anidar(divBody, divOfertaYPrecio);
+
+        let incluyeDescuento = false;
+        discounts.forEach(disco => {
+            if (disco.id === product.id) {
+                if (disco.expire != "") {
+                    if (new Date() < new Date(disco.expire))
+                        incluyeDescuento = true;
+                } else incluyeDescuento = true;
+            }
+        });
+
+        if (incluyeDescuento) {
+            anidar(divOfertaYPrecio, createDomElement('h5', 'card-title text-center text-white fst-italic bg-warning', 'Special offer'));
+        } else {
+            anidar(divOfertaYPrecio, createDomElement('h5', 'card-title text-center text-white fst-italic bg-warning'));
+        }
+
+        anidar(divOfertaYPrecio, createDomElement('h2', 'card-text text-muted text-end', `$${product.price}`));
+
+        let divImagenBoton = createDomElement('div', 'd-flex flex-column px-4 mb-3');
+        anidar(divCard, divImagenBoton);
+
+        let imagenProducto = document.createElement('img');
+        imagenProducto.className = "card-img mx-auto";
+        imagenProducto.src = product.img[0];
+        anidar(divImagenBoton, imagenProducto);
+        
+        anidar(divImagenBoton, createDomElement('button', 'btn btn-primary btn-cards text-white align-self-center mt-3', 'Add to cart', function () { addToCart(product.id) }));
+
+
+
+    });
 }
 

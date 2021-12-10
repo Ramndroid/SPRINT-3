@@ -1,0 +1,40 @@
+/////////////////////////////// VARIABLES DE BOOTSTRAP //////////
+$primary:                         #6667ab;
+$secondary:                       #5265E1;
+
+
+
+/////////////////////////////// BOTONES /////////////////////////
+.btn-cards {
+    width: 100%;
+    min-height: 3rem;
+}
+
+.btn-cards:hover {
+    color: $primary !important;
+    background-color: white !important;
+    border: 2px solid $primary !important;
+}
+
+
+/////////////////////////////// CARDS ///////////////////////////
+
+.card {
+    border-radius: 0.3125rem !important;
+}
+
+.conjunto-cards {
+    // min-height: 440px;
+    gap: 37px !important;
+}
+
+.my-cards {
+    width: 20.5rem;
+    // width: 17.5rem;
+    // height: 22rem;
+}
+
+
+
+/////////////////////////////// IMPORT BOOTSTRAP ////////////////
+@import "../node_modules/bootstrap/scss/bootstrap";
