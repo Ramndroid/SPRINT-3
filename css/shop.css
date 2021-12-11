@@ -28,3 +28,13 @@ body{
 #stationery, #makeup, #oil {
     margin-bottom: 10rem !important;
 }
+
+/* Ventana Modal detalle fotos */
+.modal-foto {
+	max-width: 800px;
+}
+
+.card:hover {
+    box-shadow: 0px 5px 5px lightgray !important;
+}
+

@@ -4,7 +4,7 @@
   "description": "Nivel 3 (ejercicios 10 y 11).\r Es necesario abrir el index.html con Live Server a fin de cargar correctamente los archivos json de los productos[] y los descuentos [].",
   "main": "index.js",
   "scripts": {
-    "build": "purgecss -css css/main.css --content index.html -o css/main.min.css"
+    "build": "purgecss -css css/main.css --content index.html  -o css/main.min.css"
   },
   
   "repository": {

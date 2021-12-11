@@ -24,14 +24,15 @@ $secondary:                       #5265E1;
 }
 
 .conjunto-cards {
-    // min-height: 440px;
-    gap: 37px !important;
+    gap: 40px !important;
 }
 
 .my-cards {
     width: 20.5rem;
-    // width: 17.5rem;
-    // height: 22rem;
+}
+
+.card-img:hover{
+    box-shadow: 0px 5px 5px lightgray !important;
 }
 
 

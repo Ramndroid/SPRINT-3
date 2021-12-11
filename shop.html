@@ -4,16 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- bootstrap -->
-  <!-- <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-    integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous"> -->
-  <!-- font awesome -->
-  <!-- <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous"> -->
-
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/shop.css"> 
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+  <!-- font awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/shop.css">
   <title>ShopNow</title>
 </head>
 
@@ -22,7 +20,7 @@
   <!-- navbar -->
   <nav class="navbar navbar-expand-md bg-secondary sticky-top">
     <a class="navbar-brand text-white" href="index.html"><span><i class="fas fa-shopping-cart mr-2"></i></span>
-      <span>Volver</span> </a>
+      <span>Home</span> </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -31,47 +29,56 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a id="myCart" class="nav-link text-white btn" id="cart" type="button" data-toggle="modal" data-target="#cartModal"
-            onclick="printCart()" href="#beauty"><i class="fas fa-cart-arrow-down"></i>
+          <a id="myCart" class="nav-link text-white btn" id="cart" type="button" data-bs-toggle="modal"
+            data-bs-target="#cartModal" onclick="printCart()" href="#beauty"><i class="fas fa-cart-arrow-down"></i>
             My Cart</a>
         </li>
       </ul>
     </div>
   </nav>
 
-  <h1 class="text-center mt-3 m-5">Welcome to the ShopNow</h1>
+  <div class="container">
+    <h1 class="text-center mt-3 m-5">Welcome to the ShopNow</h1>
 
-  <!-- stationery part -->
-  <section>
-    <h2 class="text-center bg-primary text-white p-2 mb-5"><i class="fas fa-shopping-basket mr-2"></i>Stationery</h2>
-    <div class="row justify-content-center">
-      <div id="stationery"
-      class="conjunto-cards col-auto d-flex flex-column flex-sm-column flex-md-column flex-lg-row justify-content-center">
+    <!-- stationery part -->
+    <section id="stationerysection">
+      <h2 class="text-center bg-primary text-white p-2 mb-5"><i class="fas fa-shopping-basket mr-2"></i>Stationery</h2>
+      <div class="row justify-content-center galeria">
+        <div id="stationery"
+          class="conjunto-cards col-auto d-flex flex-column flex-sm-column flex-md-column flex-lg-row justify-content-center">
+        </div>
+      </div>
+    </section>
+    <!-- makeup part -->
+    <section id="makeupsection">
+      <h2 class="text-center bg-primary text-white p-2 mb-5"><i class="fas fa-heart mr-2"></i>Makeup</h2>
+      <div class="row justify-content-center galeria">
+        <div id="makeup"
+          class="conjunto-cards col-auto d-flex flex-column flex-sm-column flex-md-column flex-lg-row justify-content-center">
+        </div>
+      </div>
+    </section>
+    <!-- oil part -->
+    <section id="oilsection">
+      <h2 class="text-center bg-primary text-white p-2 mb-5"><i class="fas fa-tshirt mr-2"></i>Essential oils</h2>
+      <div class="row justify-content-center galeria">
+        <div id="oil"
+          class="conjunto-cards col-auto d-flex flex-column flex-sm-column flex-md-column flex-lg-row justify-content-center">
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Modal detalle foto producto -->
+  <div class="modal fade" id="modal-galeria" tabindex="-1" aria-labelledby="modal-galeria" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-foto">
+      <div class="modal-content">
+        <img src="" id="imagen-modal" alt="">
       </div>
     </div>
-  </section>
+  </div>
 
-  <!-- makeup part -->
-  <section>
-    <h2 class="text-center bg-primary text-white p-2 mb-5"><i class="fas fa-heart mr-2"></i>Makeup</h2>
-    <div class="row justify-content-center">
-      <div id="makeup"
-        class="conjunto-cards col-auto d-flex flex-column flex-sm-column flex-md-column flex-lg-row justify-content-center">
-      </div>
-    </div>
-  </section>
-
-  <!-- oil part -->
-  <section>
-    <h2 class="text-center bg-primary text-white p-2 mb-5"><i class="fas fa-tshirt mr-2"></i>Essential oils</h2>
-    <div class="row justify-content-center">
-      <div id="oil"
-      class="conjunto-cards col-auto d-flex flex-column flex-sm-column flex-md-column flex-lg-row justify-content-center">
-      </div>
-    </div>
-  </section>
-
-  <!-- modal -->
+  <!-- Modal My Cart -->
   <aside>
     <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalTitle"
       aria-hidden="true">
@@ -79,31 +86,23 @@
         <div class="modal-content">
           <div class="modal-header">
             <h5 class="modal-title" id="cartModalScrollableTitle"><i class="fas fa-cart-arrow-down"></i>My Cart</h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           </div>
           <div class="modal-body">
-            <!-- listing items starts -->
-            <div>
-              <ul class="list-group" id="lista">
-
-              </ul>
-              <div id="total">
-
-              </div>
-              <div>
-                <h3 class="text-center bill px-5">Select Something</h3>
-              </div>
-              <div class="text-center">
-                <a href="checkout.html" class="btn btn-primary m-3">Checkout</a>
-              </div>
-            </div>
-            <!-- listing items ends -->
+            <ul class="list-group-flush" id="lista"></ul>
+            <h4 id="emptycart" class="text-primary text-center">Empty cart</h4>
           </div>
           <div class="modal-footer">
-            <button type="button" class="btn btn-secondary" onclick="removeCart()">Clear My Cart</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+            <div class="container">
+              <div class="row">
+                <div class="col-12" id="total"></div>
+              </div>
+              <div class="d-flex flex-row justify-content-between">
+                <button id="botonRemove" type="button" class="btn btn-primary" onclick="removeCart()">Clear</button>
+                <a id="botonCheckout" href="checkout.html" class="btn btn-primary">Checkout & Pay</a>
+                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -112,12 +111,6 @@
 
   <!-- script tags -->
   <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-    integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-    </script>
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-    integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-    </script>
   <script src="js/shop.js"></script>
 
 </body>

@@ -4,7 +4,7 @@
         "name": "Pens",
         "price": 3.5,
         "type": "stationery",
-        "img": ["../images/stationery-1.jpg", "../images/stationery-1-min.jpg"]
+        "img": ["images/stationery-1.jpg", "../images/stationery-1-min.jpg"]
     },
     {
         "id": 2,

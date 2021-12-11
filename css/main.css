@@ -14,11 +14,16 @@
 }
 
 .conjunto-cards {
-  gap: 37px !important;
+  gap: 40px !important;
 }
 
 .my-cards {
   width: 20.5rem;
+}
+
+.card-img:hover {
+  -webkit-box-shadow: 0px 5px 5px lightgray !important;
+          box-shadow: 0px 5px 5px lightgray !important;
 }
 
 /*!

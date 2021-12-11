@@ -1,22 +1,25 @@
-// Get Products []
 var products = [];
+var discounts = [];
+
+// Get Products []
 const requestURL = '../json/products.json';
 const request = new XMLHttpRequest();
 request.open('GET', requestURL);
 request.responseType = 'json';
 request.send();
-request.onload = function () { products = request.response; }
+request.onload = function () {
+    products = request.response;
 
-// Get Discounts[]
-var discounts = [];
-const requestURLDiscounts = '../json/discounts.json';
-const requestDiscounts = new XMLHttpRequest();
-requestDiscounts.open('GET', requestURLDiscounts);
-requestDiscounts.responseType = 'json';
-requestDiscounts.send();
-requestDiscounts.onload = function () {
-    discounts = requestDiscounts.response;
-    generateDOMProducts();
+    // Get Discounts[]
+    const requestURLDiscounts = '../json/discounts.json';
+    const requestDiscounts = new XMLHttpRequest();
+    requestDiscounts.open('GET', requestURLDiscounts);
+    requestDiscounts.responseType = 'json';
+    requestDiscounts.send();
+    requestDiscounts.onload = function () {
+        discounts = requestDiscounts.response;
+        generateDOMProducts();
+    }
 }
 
 // CART []
@@ -395,16 +398,28 @@ function generateDOMCart() {
     let totalCarrito = document.getElementById("total");
     totalCarrito.innerHTML = '';
 
+    let btnClear = document.getElementById('botonRemove');
+    let btnCheckout = document.getElementById('botonCheckout');
+
+    let emptyCart = document.getElementById('emptycart');
 
     if (total > 0) {
         let contenedorTotal = createDomElement('div', 'bg-primary text-white d-flex justify-content-between p-2 mb-3');
         anidar(totalCarrito, contenedorTotal);
         anidar(contenedorTotal, createDomElement('h4', 'font-weight-bold', 'TOTAL'));
         anidar(contenedorTotal, createDomElement('h4', 'font-weight-bold', `$ ${total.toFixed(2)}`));
+
+        btnClear.style.visibility = 'visible';
+        btnCheckout.style.visibility = 'visible';
+        emptyCart.style.visibility = 'collapse';
     } else {
-        let contenedorCarritoVacio = createDomElement('div', 'bg-primary text-white d-flex justify-content-center p-2 mb-3');
-        anidar(totalCarrito, contenedorCarritoVacio);
-        anidar(contenedorCarritoVacio, createDomElement('h4', 'font-weight-bold', 'Carrito vacío'));
+        // let contenedorCarritoVacio = createDomElement('div', 'bg-primary text-white d-flex justify-content-center p-2 mb-3');
+        // anidar(totalCarrito, contenedorCarritoVacio);
+        // anidar(contenedorCarritoVacio, createDomElement('h4', 'font-weight-bold', 'Carrito vacío'));
+
+        btnClear.style.visibility = 'collapse';
+        btnCheckout.style.visibility = 'collapse';
+        emptyCart.style.visibility = 'visible';
     }
 
 }
@@ -414,8 +429,6 @@ function generateDOMProducts() {
     var stationery = document.getElementById('stationery');
     var makeup = document.getElementById('makeup');
     var oil = document.getElementById('oil');
-
-    console.log(products.length);
 
     products.forEach(product => {
 
@@ -430,7 +443,11 @@ function generateDOMProducts() {
             </div>
           </div>
           <div class="d-flex flex-column px-4 mb-3">
-            <img class="card-img mx-auto" src="./images/makeup-1.jpg">
+            <div class="contenedor-imagen mb-4 col-6 col-lg-4">
+                <a href="#" data-bs-toggle="modal" data-bs-target="#modal-galeria">
+                    <img src="img/img-1.jpg" class="card-img mx-auto d-block w-100" alt="">
+                </a>
+            </div>
             <button type="button" onclick="addToCart(4)" class="btn btn-primary btn-cards text-white align-self-center mt-3">Add to cart</button>
           </div>
         </div> 
@@ -455,17 +472,57 @@ function generateDOMProducts() {
         anidar(divBody, divOfertaYPrecio);
 
         let incluyeDescuento = false;
+        let discount;
+
         discounts.forEach(disco => {
             if (disco.id === product.id) {
                 if (disco.expire != "") {
-                    if (new Date() < new Date(disco.expire))
+                    if (new Date() < new Date(disco.expire)) {
                         incluyeDescuento = true;
-                } else incluyeDescuento = true;
+                        discount = disco;
+                    }
+
+                } else {
+                    incluyeDescuento = true;
+                    discount = disco;
+                }
             }
         });
 
+        let quantity, newPrice;
+
         if (incluyeDescuento) {
-            anidar(divOfertaYPrecio, createDomElement('h5', 'card-title text-center text-white fst-italic bg-warning', 'Special offer'));
+            quantity = discount.quantity;
+
+            if (discount.newprice > 0) {
+                quantity = discount.quantity;
+                newPrice = discount.newprice;
+
+            } else {
+                if (discount.newpricepercent.indexOf("/") > 0
+                    && discount.newpricepercent.length == 3
+                    && !isNaN(discount.newpricepercent[0])
+                    && !isNaN(discount.newpricepercent[2])
+                ) {
+                    newPrice =
+                        product.price * (discount.newpricepercent[0] / discount.newpricepercent[2]);
+
+                } else if (!isNaN(discount.newpricepercent)) {
+                    newPrice = product.price * discount.newpricepercent;
+                }
+            }
+
+            let textTooltip = `Buy ${quantity} and pay $${newPrice.toFixed(2)} for each unit!`;
+
+
+            let offerTextWithTooltip = document.createElement('div');
+            offerTextWithTooltip.innerHTML = `
+                <h5 class="text-white bg-warning px-2" data-bs-toggle="tooltip" data-bs-placement="bottom" title="" data-bs-original-title="${textTooltip}">
+                Offer!
+                </h5>
+                `;
+
+            anidar(divOfertaYPrecio, offerTextWithTooltip);
         } else {
             anidar(divOfertaYPrecio, createDomElement('h5', 'card-title text-center text-white fst-italic bg-warning'));
         }
@@ -475,15 +532,31 @@ function generateDOMProducts() {
         let divImagenBoton = createDomElement('div', 'd-flex flex-column px-4 mb-3');
         anidar(divCard, divImagenBoton);
 
-        let imagenProducto = document.createElement('img');
-        imagenProducto.className = "card-img mx-auto";
-        imagenProducto.src = product.img[0];
-        anidar(divImagenBoton, imagenProducto);
-        
+        let divContenedorImagen = createDomElement('div', 'contenedor-imagen');
+        anidar(divImagenBoton, divContenedorImagen);
+
+        divContenedorImagen.innerHTML = `
+        <a href="#" data-bs-toggle="modal" data-bs-target="#modal-galeria">
+		    <img src="${product.img[0]}" class="card-img mx-auto d-block w-100" alt="">
+		</a>
+        `;
         anidar(divImagenBoton, createDomElement('button', 'btn btn-primary btn-cards text-white align-self-center mt-3', 'Add to cart', function () { addToCart(product.id) }));
-
-
-
     });
+
+    // Ventana modal para mostrar la foto del producto ampliada
+    const imagenes = document.querySelectorAll('.galeria .contenedor-imagen');
+    const imagenModal = document.getElementById('imagen-modal');
+    imagenes.forEach((imagen) => {
+        imagen.addEventListener('click', () => {
+            imagenModal.src = imagen.querySelector('img').src;
+        });
+    });
+
+    // Tooltips
+    var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+    tooltipTriggerList.map(function (tooltipTriggerEl) {
+        return new bootstrap.Tooltip(tooltipTriggerEl)
+    })
+
 }
 
