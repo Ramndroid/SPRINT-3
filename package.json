@@ -6,7 +6,6 @@
   "scripts": {
     "build": "purgecss -css css/main.css --content index.html  -o css/main.min.css"
   },
-  
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Ramndroid/SPRINT-3.git"
@@ -18,6 +17,7 @@
   },
   "homepage": "https://github.com/Ramndroid/SPRINT-3#readme",
   "dependencies": {
-    "bootstrap": "^5.1.3"
+    "bootstrap": "^5.1.3",
+    "bootstrap-icons": "^1.7.2"
   }
 }

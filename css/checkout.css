@@ -18,6 +18,5 @@ input:invalid {
 }
 
 input:invalid:focus {
-    /* background-image: linear-gradient(pink, lightgreen); */
     background-color: lightcoral;
 }

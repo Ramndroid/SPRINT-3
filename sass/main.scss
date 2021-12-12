@@ -3,6 +3,10 @@ $primary:                         #6667ab;
 $secondary:                       #5265E1;
 
 
+a {
+    text-decoration: none !important;
+}
+
 
 /////////////////////////////// BOTONES /////////////////////////
 .btn-cards {
@@ -10,10 +14,33 @@ $secondary:                       #5265E1;
     min-height: 3rem;
 }
 
-.btn-cards:hover {
-    color: $primary !important;
+
+.btn-cards:active {
+    color: black !important;
     background-color: white !important;
+    border: 2px solid black !important;
+}
+
+.btn-cards:hover {
+    color: black !important;
+    background-color: white !important;
+    border: 2px solid black !important;
+}
+
+.botonhover {
     border: 2px solid $primary !important;
+}
+
+.botonhover:hover {
+    color: black !important;
+    background-color: white !important;
+    border: 2px solid black !important;
+}
+
+.botonhover:active {
+    color: black !important;
+    background-color: white !important;
+    border: 2px solid black !important;
 }
 
 

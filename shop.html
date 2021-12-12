@@ -6,108 +6,115 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-  <!-- font awesome -->
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-
+  <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
   <link rel="stylesheet" href="css/main.css">
   <link rel="stylesheet" href="css/shop.css">
   <title>ShopNow</title>
 </head>
 
 <body>
-
   <!-- navbar -->
-  <nav class="navbar navbar-expand-md bg-secondary sticky-top">
-    <a class="navbar-brand text-white" href="index.html"><span><i class="fas fa-shopping-cart mr-2"></i></span>
-      <span>Home</span> </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-      aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
-
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <ul class="navbar-nav ml-auto">
-        <li class="nav-item">
-          <a id="myCart" class="nav-link text-white btn" id="cart" type="button" data-bs-toggle="modal"
-            data-bs-target="#cartModal" onclick="printCart()" href="#beauty"><i class="fas fa-cart-arrow-down"></i>
-            My Cart</a>
-        </li>
-      </ul>
+  <nav class="navbar navbar-light bg-primary fixed-top py-2 py-sm-2 py-md-3">
+    <div class="container-fluid">
+      <h2><a class="navbar-brand text-white fs-4 ms-0 ms-sm-0 ms-md-3 ms-lg-5" href="index.html">ShopNow</a></h2>
+      <h2>
+        <a id="myCart" class="btn-primary nav-link text-white fs-5 shadow me-0 me-sm-0 me-md-3 me-lg-5" id="cart"
+          type="button" data-bs-toggle="modal" data-bs-target="#cartModal" onclick="printCart()" href="#beauty"><i class="bi bi-cart4"></i>
+          My Cart</a>
+      </h2>
     </div>
   </nav>
 
   <div class="container">
-    <h1 class="text-center mt-3 m-5">Welcome to the ShopNow</h1>
-
-    <!-- stationery part -->
-    <section id="stationerysection">
-      <h2 class="text-center bg-primary text-white p-2 mb-5"><i class="fas fa-shopping-basket mr-2"></i>Stationery</h2>
-      <div class="row justify-content-center galeria">
-        <div id="stationery"
-          class="conjunto-cards col-auto d-flex flex-column flex-sm-column flex-md-column flex-lg-row justify-content-center">
+    <div class="container p-0 pt-5 mt-5">
+      <h1 class="text-center mt-3 m-5">Welcome to the ShopNow</h1>
+      <!-- stationery part -->
+      <section id="stationerysection">
+        <h2 class="text-center bg-dark text-white p-2 mb-5 py-3"><i class="bi bi-pen mr-2"></i> STATIONERY</h2>
+        <div class="row justify-content-center galeria">
+          <div id="stationery"
+            class="conjunto-cards col-auto d-flex flex-column flex-sm-column flex-md-column flex-lg-row justify-content-center">
+          </div>
         </div>
-      </div>
-    </section>
-    <!-- makeup part -->
-    <section id="makeupsection">
-      <h2 class="text-center bg-primary text-white p-2 mb-5"><i class="fas fa-heart mr-2"></i>Makeup</h2>
-      <div class="row justify-content-center galeria">
-        <div id="makeup"
-          class="conjunto-cards col-auto d-flex flex-column flex-sm-column flex-md-column flex-lg-row justify-content-center">
+      </section>
+      <!-- makeup part -->
+      <section id="makeupsection">
+        <h2 class="text-center bg-dark text-white p-2 mb-5 py-3"><i class="bi bi-emoji-heart-eyes mr-2"></i> MAKEUP</h2>
+        <div class="row justify-content-center galeria">
+          <div id="makeup"
+            class="conjunto-cards col-auto d-flex flex-column flex-sm-column flex-md-column flex-lg-row justify-content-center">
+          </div>
         </div>
-      </div>
-    </section>
-    <!-- oil part -->
-    <section id="oilsection">
-      <h2 class="text-center bg-primary text-white p-2 mb-5"><i class="fas fa-tshirt mr-2"></i>Essential oils</h2>
-      <div class="row justify-content-center galeria">
-        <div id="oil"
-          class="conjunto-cards col-auto d-flex flex-column flex-sm-column flex-md-column flex-lg-row justify-content-center">
+      </section>
+      <!-- oil part -->
+      <section id="oilsection">
+        <h2 class="text-center bg-dark text-white p-2 mb-5 py-3"><i class="bi bi-eyedropper mr-2"></i> ESSENTIAL OILS</h2>
+        <div class="row justify-content-center galeria">
+          <div id="oil"
+            class="conjunto-cards col-auto d-flex flex-column flex-sm-column flex-md-column flex-lg-row justify-content-center">
+          </div>
         </div>
-      </div>
-    </section>
-  </div>
-
-  <!-- Modal detalle foto producto -->
-  <div class="modal fade" id="modal-galeria" tabindex="-1" aria-labelledby="modal-galeria" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered modal-foto">
-      <div class="modal-content">
-        <img src="" id="imagen-modal" alt="">
+      </section>
+    </div>
+    <!-- Modal detalle foto producto -->
+    <div class="modal fade" id="modal-galeria" tabindex="-1" aria-labelledby="modal-galeria" aria-hidden="true">
+      <div class="modal-dialog modal-dialog-centered modal-foto">
+        <div class="modal-content">
+          <img src="" id="imagen-modal" alt="">
+        </div>
       </div>
     </div>
-  </div>
-
-  <!-- Modal My Cart -->
-  <aside>
-    <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalTitle"
-      aria-hidden="true">
-      <div class="modal-dialog modal-dialog-scrollable" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="cartModalScrollableTitle"><i class="fas fa-cart-arrow-down"></i>My Cart</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          </div>
-          <div class="modal-body">
-            <ul class="list-group-flush" id="lista"></ul>
-            <h4 id="emptycart" class="text-primary text-center">Empty cart</h4>
-          </div>
-          <div class="modal-footer">
-            <div class="container">
-              <div class="row">
-                <div class="col-12" id="total"></div>
-              </div>
-              <div class="d-flex flex-row justify-content-between">
-                <button id="botonRemove" type="button" class="btn btn-primary" onclick="removeCart()">Clear</button>
-                <a id="botonCheckout" href="checkout.html" class="btn btn-primary">Checkout & Pay</a>
-                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Close</button>
+    <!-- Modal My Cart -->
+    <aside>
+      <div class="modal fade" id="cartModal" tabindex="-1" role="dialog" aria-labelledby="cartModalTitle"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-scrollable" role="document">
+          <div class="modal-content">
+            <div class="modal-header bg-primary text-white">
+              <h5 class="modal-title" id="cartModalScrollableTitle"><i class="bi bi-cart4"></i> My Cart</h5>
+              <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"
+                aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <ul class="list-group-flush" id="lista"></ul>
+              <h4 id="emptycart" class="text-primary text-center">Empty cart</h4>
+            </div>
+            <div class="modal-footer">
+              <div class="container">
+                <div class="row">
+                  <div class="col-12" id="total"></div>
+                </div>
+                <div class="d-flex flex-row justify-content-between">
+                  <button id="botonRemove" type="button" class="btn btn-primary botonhover"
+                    onclick="removeCart()">Clear</button>
+                  <a id="botonCheckout" href="checkout.html" class="btn btn-primary botonhover">Checkout & Pay</a>
+                  <button type="button" class="btn btn-primary botonhover" data-bs-dismiss="modal">Close</button>
+                </div>
               </div>
             </div>
           </div>
         </div>
       </div>
-    </div>
-  </aside>
+    </aside>
+
+    <!-- Footer -->
+    <footer class="row my-5 py-5 text-muted text-center text-small">
+      <div class="col">
+        <p class="mb-1">© 2021 ShopNow</p>
+        <ul class="list-inline">
+          <li class="list-inline-item">
+            <a href="#">About us</a>
+          </li>
+          <li class="list-inline-item">
+            <a href="#">Terms and conditions</a>
+          </li>
+          <li class="list-inline-item">
+            <a href="#">Contact</a>
+          </li>
+        </ul>
+      </div>
+    </footer>
+  </div>
 
   <!-- script tags -->
   <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

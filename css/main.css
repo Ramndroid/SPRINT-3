@@ -1,12 +1,38 @@
+a {
+  text-decoration: none !important;
+}
+
 .btn-cards {
   width: 100%;
   min-height: 3rem;
 }
 
-.btn-cards:hover {
-  color: #6667ab !important;
+.btn-cards:active {
+  color: black !important;
   background-color: white !important;
+  border: 2px solid black !important;
+}
+
+.btn-cards:hover {
+  color: black !important;
+  background-color: white !important;
+  border: 2px solid black !important;
+}
+
+.botonhover {
   border: 2px solid #6667ab !important;
+}
+
+.botonhover:hover {
+  color: black !important;
+  background-color: white !important;
+  border: 2px solid black !important;
+}
+
+.botonhover:active {
+  color: black !important;
+  background-color: white !important;
+  border: 2px solid black !important;
 }
 
 .card {
