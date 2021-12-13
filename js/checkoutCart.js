@@ -14,13 +14,12 @@ if (sessionStorage.getItem(mycart) != null) {
 
     arrayOfObjects.forEach(product => {
         cart.push(product);
-    });    
+    });
 }
 
 if (sessionStorage.getItem("subtotal") != null) {
     let st = sessionStorage.getItem("subtotal");
     var arrayOfObjects = JSON.parse(st);
-    console.log(arrayOfObjects);
     subtotal = arrayOfObjects;
 
     total = 0;
@@ -189,6 +188,77 @@ function generateDOMCart() {
         anidar(totalCarrito, contenedorTotal);
         anidar(contenedorTotal, createDomElement('h4', 'font-weight-bold', 'TOTAL'));
         anidar(contenedorTotal, createDomElement('h4', 'font-weight-bold', `$ ${total.toFixed(2)}`));
-    } 
+    }
+
+    let subtotalsCarrito = document.getElementById("subtotals");
+    subtotalsCarrito.innerHTML = '';
+
+    Object.keys(subtotal).forEach(key => {
+        console.log(key, subtotal[key].value, subtotal[key].discount);
+
+        if (subtotal[key].value > 0) {
+            anidar(subtotalsCarrito, createDomElement('h4', 'bg-primary text-white d-flex justify-content-between my-2', key.toUpperCase()));
+            if (subtotal[key].discount > 0) {
+
+                let contenedorStationery = createDomElement('div', 'text-primary d-flex justify-content-between');
+                anidar(subtotalsCarrito, contenedorStationery);
+                anidar(contenedorStationery, createDomElement('h5', 'ms-4 font-weight-bold', `Subtotal ${key} w/o discount`));
+                anidar(contenedorStationery, createDomElement('h5', 'font-weight-bold', `$ ${subtotal[key].value.toFixed(2)}`));
+
+                let contenedorStationeryDiscount = createDomElement('div', 'ms-4 text-primary d-flex justify-content-between');
+                anidar(subtotalsCarrito, contenedorStationeryDiscount);
+                anidar(contenedorStationeryDiscount, createDomElement('h5', 'font-weight-bold', `Discount ${key}`));
+                anidar(contenedorStationeryDiscount, createDomElement('h5', 'font-weight-bold', `$ ${subtotal[key].discount.toFixed(2)}`));
+
+                let contenedorStationerySubtotal = createDomElement('div', 'ms-4 bg-warning text-primary d-flex justify-content-between');
+                anidar(subtotalsCarrito, contenedorStationerySubtotal);
+                anidar(contenedorStationerySubtotal, createDomElement('h4', 'font-weight-bold', `Subtotal ${key}`));
+                anidar(contenedorStationerySubtotal, createDomElement('h4', 'font-weight-bold', `$ ${(subtotal[key].value - subtotal[key].discount).toFixed(2)}`));
+            } else {
+                let contenedorSubtotalWODiscount = createDomElement('div', 'ms-4 bg-warning text-primary d-flex justify-content-between');
+                anidar(subtotalsCarrito, contenedorSubtotalWODiscount);
+                anidar(contenedorSubtotalWODiscount, createDomElement('h4', 'font-weight-bold', `Subtotal ${key}`));
+                anidar(contenedorSubtotalWODiscount, createDomElement('h4', 'font-weight-bold', `$ ${subtotal[key].value.toFixed(2)}`));
+            }
+        }
+
+
+
+        // switch (key) {
+        //     case 'stationery':
+        //         anidar(subtotalsCarrito, createDomElement('h4', 'bg-primary text-white d-flex justify-content-between p-2', 'Stationery'));
+        //         if (subtotal[key].discount > 0) {
+
+        //             let contenedorStationery = createDomElement('div', 'bg-primary text-white d-flex justify-content-between p-2');
+        //             anidar(subtotalsCarrito, contenedorStationery);
+        //             anidar(contenedorStationery, createDomElement('h4', 'font-weight-bold', 'Subtotal stationery w/o discount'));
+        //             anidar(contenedorStationery, createDomElement('h4', 'font-weight-bold', `$ ${subtotal[key].value.toFixed(2)}`));
+
+        //             let contenedorStationeryDiscount = createDomElement('div', 'bg-primary text-white d-flex justify-content-between p-2 mb-3');
+        //             anidar(subtotalsCarrito, contenedorStationeryDiscount);
+        //             anidar(contenedorStationeryDiscount, createDomElement('h4', 'font-weight-bold', 'Discount stationery'));
+        //             anidar(contenedorStationeryDiscount, createDomElement('h4', 'font-weight-bold', `$ ${subtotal[key].discount.toFixed(2)}`));
+
+        //             let contenedorStationerySubtotal = createDomElement('div', 'bg-primary text-white d-flex justify-content-between p-2 mb-3');
+        //             anidar(subtotalsCarrito, contenedorStationerySubtotal);
+        //             anidar(contenedorStationerySubtotal, createDomElement('h4', 'font-weight-bold', 'Subtotal stationery'));
+        //             anidar(contenedorStationerySubtotal, createDomElement('h4', 'font-weight-bold', `$ ${(subtotal[key].value - subtotal[key].discount).toFixed(2)}`));
+        //         } else {
+        //             let contenedorSubtotalWODiscount = createDomElement('div', 'bg-primary text-white d-flex justify-content-between p-2');
+        //             anidar(subtotalsCarrito, contenedorSubtotalWODiscount);
+        //             anidar(contenedorSubtotalWODiscount, createDomElement('h4', 'font-weight-bold', 'Subtotal stationery'));
+        //             anidar(contenedorSubtotalWODiscount, createDomElement('h4', 'font-weight-bold', `$ ${subtotal[key].value.toFixed(2)}`));
+        //         }
+
+        //         break;
+
+        //     case 'makeup':
+        //         break;
+
+        //     case 'oil':
+        //         break;
+        // }
+    });
+
 
 }

@@ -46,13 +46,9 @@
     box-shadow: 0px 5px 5px lightgray !important;
 }
 
-.conjunto-cards {
-    gap: 40px !important;
-    margin-bottom: 2rem !important;
-}
-
 .my-cards {
     width: 20.5rem;
+    margin: 20px;
 }
 
 /*////////////////////////////// CABECEROS SECTIONS /////////////*/
@@ -65,6 +61,40 @@
     height: 100px;
     overflow: hidden;
 }
+
+.seccion {
+    margin-top: 30px;
+    margin-bottom: 10px;
+}
+
+@media (min-width: 576px) { 
+    .seccion {
+        margin-top: 50px;
+        margin-bottom: 30px;
+    }
+}
+
+@media (min-width: 768px) { 
+    .seccion {
+        margin-top: 60px;
+        margin-bottom: 30px;
+    }
+}
+
+@media (min-width: 992px) { 
+    .seccion {
+        margin-top: 70px;
+        margin-bottom: 35px;
+    }
+}
+
+@media (min-width: 1200px) { 
+    .seccion {
+        margin-top: 80px;
+        margin-bottom: 40px;
+    }
+}
+
 
 /*////////////////////////////// SECTIONS ///////////////////////*/
 

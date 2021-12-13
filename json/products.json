@@ -19,7 +19,7 @@
         "price": 5,
         "type": "stationery",
         "img": ["../images/stationery-3.jpg", "../images/stationery-3-min.jpg"]
-    },
+    }, 
     {
         "id": 4,
         "name": "Cold Palette",
@@ -43,21 +43,21 @@
     },
     {
         "id": 7,
-        "name": "Tangerine essential oil",
+        "name": "Tangerine",
         "price": 9.99,
         "type": "oil",
         "img": ["../images/oil-1.jpg", "../images/oil-1-min.jpg"]
     },
     {
         "id": 8,
-        "name": "Lavender essential oil",
+        "name": "Lavender",
         "price": 12.99,
         "type": "oil",
         "img": ["../images/oil-2.jpg", "../images/oil-2-min.jpg"]
     },
     {
         "id": 9,
-        "name": "Lemon essential oil",
+        "name": "Lemon",
         "price": 9.99,
         "type": "oil",
         "img": ["../images/oil-3.jpg", "../images/oil-3-min.jpg"]

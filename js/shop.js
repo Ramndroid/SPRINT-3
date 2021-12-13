@@ -488,7 +488,7 @@ function generateDOMProducts() {
         */
 
 
-        let divCard = createDomElement('div', 'card my-cards border-white shadow align-self-start align-self-sm-start align-self-md-start align-self-lg-start');
+        let divCard = createDomElement('div', 'card my-cards border-white shadow');
 
         switch (product.type) {
             case "stationery": anidar(stationery, divCard);
