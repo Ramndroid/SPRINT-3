@@ -1,39 +1,130 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins');
-body{
-    font-family: Poppins;
-}
-
-
-/* navbar */
-/* .nav-link{
-    color: rgb(255, 255, 255);
-    font-size: 20px;
-    font-weight: bold;
-}
-.nav-link:hover{
-    color: white;
-} */
-.grocery-img{
-    width: 60%;
-    margin: 1rem auto;
-}
-
-.price{
-    position: absolute;
-    right: 0;
-    margin-right: 1rem;
-}
-
-#stationery, #makeup, #oil {
-    margin-bottom: 4rem !important;
-}
-
-/* Ventana Modal detalle fotos */
+/*////////////////////////////// MODAL FOTOS ////////////////////*/
 .modal-foto {
 	max-width: 800px;
 }
 
+/*////////////////////////////// BOTONES ////////////////////////*/
+.btn-cards {
+    width: 100%;
+    min-height: 3rem;
+}
+
+.btn-cards:active {
+    color: black !important;
+    background-color: white !important;
+    border: 2px solid black !important;
+}
+
+.btn-cards:hover {
+    color: black !important;
+    background-color: white !important;
+    border: 2px solid black !important;
+}
+
+.botonhover:hover {
+    color: black !important;
+    background-color: white !important;
+    border: 2px solid black !important;
+}
+
+.botonhover:active {
+    color: black !important;
+    background-color: white !important;
+    border: 2px solid black !important;
+}
+
+/*////////////////////////////// CARDS //////////////////////////*/
+.card {
+    border-radius: 0.3125rem !important;
+}
+
 .card:hover {
     box-shadow: 0px 5px 5px lightgray !important;
+}
+
+.card-img:hover{
+    box-shadow: 0px 5px 5px lightgray !important;
+}
+
+.conjunto-cards {
+    gap: 40px !important;
+    margin-bottom: 2rem !important;
+}
+
+.my-cards {
+    width: 20.5rem;
+}
+
+/*////////////////////////////// CABECEROS SECTIONS /////////////*/
+.header-type {
+    width: 100%;
+    padding: 0px;
+    margin: 0;
+    float: none;
+    display: block;
+    height: 100px;
+    overflow: hidden;
+}
+
+/*////////////////////////////// SECTIONS ///////////////////////*/
+
+#stationery-img {
+    object-position: 0px -40px;
+}
+
+#makeup-img {
+    object-position: 0px -40px;
+}
+
+#oil-img {
+    object-position: 0px -40px;
+}
+
+@media (min-width: 290px) { 
+    #stationery-img { object-position: 0px -70px; }
+    #makeup-img { object-position: 0px -65px; }
+    #oil-img { object-position: 0px -50px; }
+}
+
+@media (min-width: 370px) { 
+    #stationery-img { object-position: 0px -90px; }
+    #makeup-img { object-position: 0px -70px; }
+    #oil-img { object-position: 0px -65px; }
+}
+
+@media (min-width: 430px) { 
+    #stationery-img { object-position: 0px -150px; }
+    #makeup-img { object-position: 0px -100px; }
+    #oil-img { object-position: 0px -90px; }
+}
+
+@media (min-width: 576px) { 
+    #stationery-img { object-position: 0px -170px; }
+    #makeup-img { object-position: 0px -150px; }
+    #oil-img { object-position: 0px -200px; }
+}
+
+@media (min-width: 768px) { 
+    #stationery-img { object-position: 0px -300px; }
+    #makeup-img { object-position: 0px -200px; }
+    #oil-img { object-position: 0px -250px; }
+}
+
+@media (min-width: 992px) { 
+    #stationery-img { object-position: 0px -400px; }
+    #makeup-img { object-position: 0px -250px; }
+    #oil-img { object-position: 0px -350px; }
+}
+
+@media (min-width: 1200px) { 
+    #stationery-img { object-position: 0px -490px; }
+    #makeup-img { object-position: 0px -370px; }
+    #oil-img { object-position: 0px -360px; }
+}
+
+@media (min-width: 1400px) { 
+    #stationery-img { object-position: 0px -520px; }
+    #makeup-img { object-position: 0px -350px; }
+    #oil-img { object-position: 0px -450px; }
 }
 

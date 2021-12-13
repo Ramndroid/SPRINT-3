@@ -1,9 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins');
-
-body {
-    font-family: Poppins;
-}
-
 #errorName, #errorLastName, #errorEmail,
 #errorAddress, #errorPassword, #errorPhone {
     display: none;

@@ -1,29 +1,10 @@
+// FUENTE DE DATOS
 var products = [];
 var discounts = [];
 
-// Get Products []
-const requestURL = '../json/products.json';
-const request = new XMLHttpRequest();
-request.open('GET', requestURL);
-request.responseType = 'json';
-request.send();
-request.onload = function () {
-    products = request.response;
-
-    // Get Discounts[]
-    const requestURLDiscounts = '../json/discounts.json';
-    const requestDiscounts = new XMLHttpRequest();
-    requestDiscounts.open('GET', requestURLDiscounts);
-    requestDiscounts.responseType = 'json';
-    requestDiscounts.send();
-    requestDiscounts.onload = function () {
-        discounts = requestDiscounts.response;
-        generateDOMProducts();
-    }
-}
-
 // CART []
 var cart = [];
+const mycart = "mycart";
 
 // SUBTOTAL {}
 var subtotal = {
@@ -43,6 +24,48 @@ var subtotal = {
 
 // TOTAL 0
 var total = 0;
+
+// GET PRODUCTS []
+const requestURL = '../json/products.json';
+const request = new XMLHttpRequest();
+request.open('GET', requestURL);
+request.responseType = 'json';
+request.send();
+request.onload = function () {
+    products = request.response;
+
+    // GET DISCOUNTS []
+    const requestURLDiscounts = '../json/discounts.json';
+    const requestDiscounts = new XMLHttpRequest();
+    requestDiscounts.open('GET', requestURLDiscounts);
+    requestDiscounts.responseType = 'json';
+    requestDiscounts.send();
+    requestDiscounts.onload = function () {
+        discounts = requestDiscounts.response;
+        generateDOMProducts();
+        cargarCarritoSiExiste();
+    }
+}
+
+// CARGAR SESSION STORAGE
+function cargarCarritoSiExiste() {
+    // Comprobar si el navegador es compatible con webstorage
+    if (typeof (Storage) == "undefined") {
+        window.location.href = "https://google.es";
+    }
+
+    if (sessionStorage.getItem(mycart) != null) {
+        let mc = sessionStorage.getItem(mycart);
+        var arrayOfObjects = eval(mc);
+
+        arrayOfObjects.forEach(product => {
+            for (let i = 0; i < product.quantity; i++) {
+                addToCart(product.id);
+            }
+        });
+    }
+}
+
 
 // ADD TO CART
 function addToCart(id) {
@@ -230,7 +253,7 @@ function addFromCart(id) {
 function printMyCartText() {
     let myCart = document.getElementById('myCart');
     let myCartTitle = document.getElementById('cartModalScrollableTitle');
-    
+
     let totalProducts = 0;
     cart.forEach(product => {
         totalProducts += product.quantity;
@@ -424,14 +447,14 @@ function generateDOMCart() {
         btnCheckout.style.visibility = 'visible';
         emptyCart.style.visibility = 'collapse';
     } else {
-        // let contenedorCarritoVacio = createDomElement('div', 'bg-primary text-white d-flex justify-content-center p-2 mb-3');
-        // anidar(totalCarrito, contenedorCarritoVacio);
-        // anidar(contenedorCarritoVacio, createDomElement('h4', 'font-weight-bold', 'Carrito vacío'));
-
         btnClear.style.visibility = 'collapse';
         btnCheckout.style.visibility = 'collapse';
         emptyCart.style.visibility = 'visible';
     }
+
+    // Guardar session storage
+    sessionStorage.setItem(mycart, JSON.stringify(cart));
+    sessionStorage.setItem("subtotal", JSON.stringify(subtotal));
 
 }
 

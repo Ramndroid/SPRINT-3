@@ -2,67 +2,25 @@
 $primary:                         #6667ab;
 $secondary:                       #5265E1;
 
+$list-group-border-color: transparent;
+
+/////////////////////////////// GENERAL /////////////////////////
+* {
+    box-sizing: border-box;
+}
 
 a {
     text-decoration: none !important;
 }
 
-
-/////////////////////////////// BOTONES /////////////////////////
-.btn-cards {
-    width: 100%;
-    min-height: 3rem;
-}
-
-
-.btn-cards:active {
-    color: black !important;
-    background-color: white !important;
-    border: 2px solid black !important;
-}
-
-.btn-cards:hover {
-    color: black !important;
-    background-color: white !important;
-    border: 2px solid black !important;
-}
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+body{
+    font-family: Poppins !important;
+} 
 
 .botonhover {
     border: 2px solid $primary !important;
 }
-
-.botonhover:hover {
-    color: black !important;
-    background-color: white !important;
-    border: 2px solid black !important;
-}
-
-.botonhover:active {
-    color: black !important;
-    background-color: white !important;
-    border: 2px solid black !important;
-}
-
-
-/////////////////////////////// CARDS ///////////////////////////
-
-.card {
-    border-radius: 0.3125rem !important;
-}
-
-.conjunto-cards {
-    gap: 40px !important;
-}
-
-.my-cards {
-    width: 20.5rem;
-}
-
-.card-img:hover{
-    box-shadow: 0px 5px 5px lightgray !important;
-}
-
-
 
 /////////////////////////////// IMPORT BOOTSTRAP ////////////////
 @import "../node_modules/bootstrap/scss/bootstrap";

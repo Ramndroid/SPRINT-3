@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/checkout.css">
@@ -13,8 +13,7 @@
 </head>
 
 <body>
-
-    <!-- navbar -->
+    <!-- Navbar -->
     <nav class="navbar navbar-light bg-primary fixed-top py-2 py-sm-2 py-md-3">
         <div class="container-fluid">
             <h2>
@@ -27,72 +26,84 @@
         </div>
     </nav>
 
-    <div class="container pt-4 pt-sm-4 pt-md-5">
-
-        <!-- <div class="row mb-5">
+    <!-- Icons -->
+    <div class="container pt-5 mt-5">
+        <div class="row mx-2 mx-sm-2 mx-md-0">
             <div class="col-12">
                 <div class="card shadow">
-                    <h5 class="card-header fs-1 text-center">Checkout Page</h5>
+                    <h5 class="card-header text-center bg-primary text-white fs-4">Checkout Page</h5>
                     <div class="card-body">
-                        <div class="row mr-0">
-                            <div class="col-sm-6">
-                                <h2 class="my-3 mx-5 bord"><i class="bi bi-currency-dollar p-4 mr-4"></i>Cash on
+                        <div class="row ms-0">
+                            <div class="col-12 col-sm-12 col-md-6">
+                                <p class="my-3 mx-0 fs-4"><i class="bi bi-currency-dollar"></i> Cash on
                                     Delivery
-                                </h2>
+                                </p>
                             </div>
-                            <div class="col-sm-6 ">
-                                <h2 class="my-3 mx-5 bord"><i class="bi bi-arrow-left-right p-4 mr-4"></i>100% Return
-                                </h2>
+                            <div class="col-12 col-sm-12 col-md-6">
+                                <p class="my-3 mx-0 fs-4"><i class="bi bi-arrow-left-right"></i> 100% Return
+                                </p>
                             </div>
                         </div>
-                        <div class="row mr-0">
-                            <div class="col-sm-6">
-                                <h2 class="my-3 mx-5 bord"><i class="bi bi-hand-thumbs-up p-4 mr-4"></i>Quality Assured
-                                </h2>
+                        <div class="row ms-0">
+                            <div class="col-12 col-sm-12 col-md-6">
+                                <p class="my-3 mx-0 fs-4"><i class="bi bi-hand-thumbs-up"></i> Quality Assured
+                                </p>
                             </div>
-                            <div class="col-sm-6 ">
-                                <h2 class="my-3 mx-5 bord"><i class="bi bi-stopwatch p-4 mr-4"></i>Delivery on time</h2>
+                            <div class="col-12 col-sm-12 col-md-6">
+                                <p class="my-3 mx-0 fs-4"><i class="bi bi-stopwatch"></i> Delivery on time</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-        </div> -->
+        </div>
+    </div>
 
+    <!-- My Cart  /  Form -->
+    <div class="container mt-4">
+        <div class="row mx-2 mx-sm-2 mx-md-0">
 
-        <div class="row mx-2 mx-sm-2 mx-md-0 mt-5">
+            <!-- My Cart -->
             <div class="col-12 col-sm-12 col-md-6">
                 <div class="card shadow">
                     <h5 class="card-header bg-primary text-white">My Cart</h5>
                     <div class="card-body">
                         <h5 class="card-title">Special title treatment</h5>
                         <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                        <div>
-                            <div class="accordion accordion-flush" id="accordionFlushExample">
-                                <div class="accordion-item">
-                                  <h2 class="accordion-header" id="flush-headingOne">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#flush-collapseOne" aria-expanded="false" aria-controls="flush-collapseOne">
-                                      Details
+                        <div class="col-12" id="total">Total</div>
+                        <div class="accordion accordion-flush" id="accordionFlushExample">
+                            <div class="accordion-item">
+                                <h2 class="accordion-header" id="flush-headingOne">
+
+                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+                                        data-bs-target="#flush-collapseOne" aria-expanded="false"
+                                        aria-controls="flush-collapseOne">
+                                        Details of cart
                                     </button>
-                                  </h2>
-                                  <div id="flush-collapseOne" class="accordion-collapse collapse" aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
-                                    <div class="accordion-body">Placeholder content for this accordion, which is intended to demonstrate the <code>.accordion-flush</code> class. This is the first item's accordion body.</div>
-                                  </div>
+                                </h2>
+                                <div id="flush-collapseOne" class="accordion-collapse collapse"
+                                    aria-labelledby="flush-headingOne" data-bs-parent="#accordionFlushExample">
+                                    <div class="accordion-body">Placeholder content for this accordion, which is
+                                        intended to demonstrate the <code>.accordion-flush</code> class. This is the
+                                        first item's accordion body.
+                                        <ul class="list-group-flush overflow-auto" style="max-height: 500px;"
+                                            id="lista"></ul>
+                                    </div>
                                 </div>
-                              </div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
+            <!-- Form -->
             <div class="col-12 col-sm-12 col-md-6 mt-4 mt-sm-4 mt-md-0">
                 <div class="card shadow">
                     <h5 class="card-header bg-primary text-white">Purchase form</h5>
                     <div class="card-body">
                         <!-- Checkout starts here -->
-                        <form class="form mt-2">
-
+                        <form class="form mt-2 mx-3">
                             <div class="row">
                                 <div class="col-12 col-sm-12 col-md-12 col-lg-6">
                                     <div class="form-group">
@@ -113,7 +124,7 @@
                                 </div>
                             </div>
 
-                            <div class="row mt-5">
+                            <div class="row mt-4 mt-sm-4 mt-md-3">
                                 <div class="col-12 col-sm-12 col-md-12 col-lg-6">
                                     <div class="form-group">
                                         <label for="useraddress">Address</label>
@@ -133,7 +144,7 @@
                                 </div>
                             </div>
 
-                            <div class="row mt-5">
+                            <div class="row mt-4 mt-sm-4 mt-md-3">
                                 <div class="col-12 col-sm-12 col-md-12 col-lg-6">
                                     <div class="form-group">
                                         <label for="useremail">Email</label>
@@ -164,12 +175,11 @@
                 </div>
             </div>
         </div>
-        <!-- header -->
+    </div>
 
-
-
-        <!-- Footer -->
-        <footer class="row my-5 py-5 text-muted text-center text-small">
+    <!-- Footer -->
+    <div class="container">
+        <footer class="row mt-5 pt-5 pb-2 text-muted text-center text-small">
             <div class="col">
                 <p class="mb-1">© 2021 ShopNow</p>
                 <ul class="list-inline">
@@ -177,7 +187,7 @@
                         <a href="#">About us</a>
                     </li>
                     <li class="list-inline-item">
-                        <a href="#">Terms and conditions</a>
+                        <a href="#">Terms & conditions</a>
                     </li>
                     <li class="list-inline-item">
                         <a href="#">Contact</a>
@@ -186,15 +196,11 @@
             </div>
         </footer>
     </div>
-    </div>
 
-
-
-    <!-- Buy Button -->
-    <!-- script tags -->
+    <!-- Script tags -->
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="js/checkout.js"></script>
-
+    <script src="js/checkoutCart.js"></script>
 </body>
 
 </html>

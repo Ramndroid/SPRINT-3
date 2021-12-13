@@ -5,52 +5,84 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/style.css">
     <title>ShopNow</title>
 </head>
 
 <body>
+    <!-- Navbar -->
+    <nav class="navbar navbar-light bg-primary fixed-top py-2 py-sm-2 py-md-3">
+        <div class="container-fluid">
+            <h2>
+                <a class="navbar-brand text-white fs-4 ms-0 ms-sm-0 ms-md-3 ms-lg-5" href="index.html">ShopNow</a>
+            </h2>
+            <h2>
+                <a class="btn-primary nav-link text-white fs-5 shadow me-0 me-sm-0 me-md-3 me-lg-5"
+                    href="shop.html">Come in<i class="bi bi-arrow-right-short"></i></a>
+            </h2>
+        </div>
+    </nav>
 
-    <section class="container-fluid p-5 text-center">
-        <div class="row pt-3">
+    <!-- Sections -->
+    <div class="container pt-5 mt-5 text-center">
+        <!-- stationery -->
+        <div class="row">
             <div class="col-12">
-                <a href="shop.html#stationerysection"class="position-relative">
-                    <h5 class="position-absolute bg-dark top-50 start-0 text-white ms-5" style="font-size: 4rem;">STATIONERY</h5>
-                    <img src="images/stationery-bg.jpg" alt="" class="img-fluid" style="width: 40%;">
+                <a href="shop.html#stationerysection" class="position-relative">
+                    <h5 class="banner-text position-absolute bg-dark top-50 start-0 text-white ms-5">
+                        STATIONERY</h5>
+                    <img src="images/stationery-bg.jpg" alt="" class="img-fluid banner">
                 </a>
             </div>
         </div>
 
+        <!-- makeup -->
         <div class="row pt-3">
             <div class="col-12">
                 <a href="shop.html#makeupsection" class="position-relative">
-                    <h5 class="position-absolute bg-dark top-50 start-0 text-white ms-5" style="font-size: 4rem;">MAKEUP</h5>
-                    <img src="images/makeup-bg.jpg" alt="" class="img-fluid" style="width: 40%;">
+                    <h5 class="banner-text position-absolute bg-dark top-50 start-0 text-white ms-5">MAKEUP
+                    </h5>
+                    <img src="images/makeup-bg.jpg" alt="" class="img-fluid banner">
                 </a>
             </div>
         </div>
 
+        <!-- oil -->
         <div class="row pt-3">
             <div class="col-12">
                 <a href="shop.html#oilsection" class="position-relative">
-                    <h5 class="position-absolute bg-dark top-50 start-0 text-white ms-5" style="font-size: 4rem;">ESSENTIAL OILS</h5>
-                    <img src="images/oil-bg.jpg" alt="" class="img-fluid" style="width: 40%;">
+                    <h5 class="banner-text position-absolute bg-dark top-50 start-0 text-white ms-5">
+                        ESSENTIAL OILS</h5>
+                    <img src="images/oil-bg.jpg" alt="" class="img-fluid banner">
                 </a>
             </div>
         </div>
-    </section>
+    </div>
 
+    <!-- Footer -->
+    <div class="container">
+        <footer class="row mt-5 pt-5 pb-2 text-muted text-center text-small">
+            <div class="col">
+                <p class="mb-1">© 2021 ShopNow</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <a href="#">About us</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">Terms & conditions</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+    </div>
 
-    <!-- script tags -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-        </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-        </script>
-
+    <!-- Script tags -->
     <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
