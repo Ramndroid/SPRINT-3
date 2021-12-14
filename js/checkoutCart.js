@@ -1,15 +1,14 @@
 let cart = [];
-const mycart = "mycart";
-let total = 0;
 let subtotal;
+let total = 0;
 
 // Comprobar si el navegador es compatible con webstorage
 if (typeof (Storage) == "undefined") {
     window.location.href = "https://google.es";
 }
 
-if (sessionStorage.getItem(mycart) != null) {
-    let mc = sessionStorage.getItem(mycart);
+if (sessionStorage.getItem("mycart") != null) {
+    let mc = sessionStorage.getItem("mycart");
     var arrayOfObjects = eval(mc);
 
     arrayOfObjects.forEach(product => {
@@ -56,209 +55,113 @@ function anidar(padre, hijo) {
     padre.appendChild(hijo);
 }
 
-// GENERATE DOM CART
 function generateDOMCart() {
-    let rotulo1 = 'h5';
-    let rotulo2 = 'h6';
-
     // Vincular lista del DOM y resetearla
     let lista = document.getElementById("lista");
     lista.innerHTML = '';
+    lista.className = "p-0";
 
     // CADA ITEM DEL CARRITO REPRESENTADO EN 'LI'
+    cart.sort(function (a, b) {
+        return a.type.localeCompare(b.type);
+    });
+    
     cart.forEach(item => {
-
-        // ELEMENTO LI - PRINCIPAL
         let entry = createDomElement('li', 'list-group-item');
         anidar(lista, entry);
 
-        // CABECERA DE PRODUCTO
-        let divTitulo = createDomElement('div', 'd-flex justify-content-between align-items-end bg-primary');
-        anidar(entry, divTitulo);
-        // NOMBRE PRODUCTO H5
-        anidar(divTitulo, createDomElement(rotulo1, 'ps-3 text-white', item.name.toUpperCase()));
-        // BOTÓN BORRAR 
-        let divTituloBoton = createDomElement('div', 'ps-5');
-        anidar(divTitulo, divTituloBoton);
-        // let botonEliminarElemento = createDomElement('button', 'btn btn-outline-light btn-sm m-2', ``, function () { removeElementFromCart(item.id) });
-        // anidar(divTituloBoton, botonEliminarElemento);
-        // anidar(botonEliminarElemento, createDomElement('i', 'bi bi-trash-fill'));
+        let cardDiv = createDomElement('div', 'card shadow-sm');
+/*          */let cardHeaderDiv = createDomElement('div', 'd-flex justify-content-between');
+/*              */let cardTitle = createDomElement('p', 'card-header text-primary fs-5 w-100', item.name);
+/*              */let cardType = createDomElement('p', 'card-header text-muted', item.type);
+/*          */let cardBodyDiv = createDomElement('div', 'card-body row');
+/*              */let cardImageDiv = createDomElement('div', 'col-12 col-sm-4 text-center');
+/*                  */let cardImage = createDomElement('img', 'img-fluid img-thumbnail');
+/*              */let cardColDiv = createDomElement('div', 'col-12 col-sm-8 p-0');
+/*                  */let cardColContainer = createDomElement('div', 'container');
+/*                      */let cardColRow = createDomElement('div', 'row');
+/*                          */let cardQuantityDiv = createDomElement('div', 'col-12 d-flex justify-content-between mt-1 text-italic px-2');
+/*                              */let cardQuantityTitle = createDomElement('p', 'm-0 p-0 text-primary', 'Quantity:');
+/*                              */let cardQuantity = createDomElement('p', 'm-0 p-0 text-primary', `${item.quantity}`);
+/*                          */let cardDollarUnitDiv = createDomElement('div', 'col-12 d-flex justify-content-between text-italic px-2');
+/*                              */let cardDollarUnitTitle = createDomElement('p', 'm-0 p-0 text-primary', '$/unit:');
+/*                              */let cardDollarUnit = createDomElement('p', 'm-0 p-0 text-muted text-decoration-line-through');
+/*                          */let cardDiscDiv = createDomElement('div', 'col-12 d-flex justify-content-between text-italic px-2');
+/*                              */let cardDiscTitle = createDomElement('p', 'm-0 p-0 text-primary', 'Discount:');
+/*                              */let cardDisc = createDomElement('p', 'm-0 p-0 text-primary', `$${(item.subtotal - item.subtotalWithDiscount).toFixed(2)}`);
+/*                          */let cardSubtotalDiv = createDomElement('div', 'col-12 d-flex justify-content-between bg-dark text-white text-italic px-2 mt-2');
+/*                              */let cardSubtotalTitle = createDomElement('p', 'm-0 p-0', 'Subtotal');
+/*                              */let cardSubtotal = createDomElement('p', 'm-0 p-0');
 
-        let contenedorGeneral = createDomElement('div', 'd-flex flex-row');
-        anidar(entry, contenedorGeneral);
+        cardType.style.fontSize = "0.9rem";
+        cardType.style.fontStyle = "italic";
+        cardImage.src = item.imgcart;
 
-        let imagenProducto = createDomElement('img', 'img-fluid');
-        imagenProducto.src = item.imgcart;
-        anidar(contenedorGeneral, imagenProducto);
-
-        // CONTAINER INFORMACIÓN DEL PRODUCTO EN EL CARRITO
-        let containerInformacion = createDomElement('div', 'container');
-        anidar(contenedorGeneral, containerInformacion);
-        let rowQuantity = createDomElement('div', 'row justify-content-end');
-        anidar(containerInformacion, rowQuantity);
-
-        // CANTIDAD EN EL CARRITO
-        let colQuantity = createDomElement('div', 'col-10 span-4 d-flex justify-content-between align-items-end mt-1 text-italic');
-        anidar(rowQuantity, colQuantity);
-        anidar(colQuantity, createDomElement(rotulo2, 'font-italic text-primary', 'Quantity:'));
-
-        // BOTONES - + PARA LA CANTIDAD
-        let divBotonesQuantity = createDomElement('div', 'd-flex');
-        anidar(colQuantity, divBotonesQuantity);
-        // anidar(divBotonesQuantity, createDomElement('button', 'btn btn-primary botonhover btn-sm', '<i class="bi bi-dash-lg">', function () { removeFromCart(item.id) }));
-        // anidar(divBotonesQuantity, createDomElement('button', 'btn btn-primary botonhover btn-sm ms-1', '<i class="bi bi-plus-lg">', function () { addFromCart(item.id) }));
-
-        // TEXTO PARA INDICAR LA CANTIDAD
-        let divTextoQuantity = createDomElement('div', 'd-flex justify-content-end align-items-end mt-4');
-        anidar(colQuantity, divTextoQuantity);
-        anidar(divTextoQuantity, createDomElement(rotulo2, 'font-italic text-primary ms-5', item.quantity));
-
-        // PRECIO UNIDAD
-        let rowPrecioUnidad = createDomElement('div', 'row justify-content-end');
-        anidar(containerInformacion, rowPrecioUnidad);
-        let colPrecioUnidad = createDomElement('div', 'col-10 d-flex justify-content-between align-items-end mt-1 text-italic');
-        anidar(rowPrecioUnidad, colPrecioUnidad);
-        anidar(colPrecioUnidad, createDomElement(rotulo2, 'font-italic text-primary', '$/unit:'));
-        anidar(colPrecioUnidad, createDomElement(rotulo2, 'ms-5 font-italic text-primary', `$ ${item.price.toFixed(2)}`));
-
-        // SE MOSTRARÁ O NO INFORMACIÓN SOBRE DESCUENTOS
         if (item.subtotalWithDiscount > 0) {
-
-            // CONTAINER DETALLE DESCUENTOS Y SUBTOTAL
-            let containerDescuentos = createDomElement('div', 'container');
-            anidar(entry, containerDescuentos);
-
-            // SUBTOTAL SIN DESCUENTOS
-            let rowSubtotalSinDesc = createDomElement('div', 'row justify-content-end');
-            anidar(containerDescuentos, rowSubtotalSinDesc);
-            let colSubtotalSinDesc = createDomElement('div', 'col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic');
-            anidar(rowSubtotalSinDesc, colSubtotalSinDesc);
-            anidar(colSubtotalSinDesc, createDomElement(rotulo2, 'font-italic text-primary', 'Subtotal w/o discount:'));
-            anidar(colSubtotalSinDesc, createDomElement(rotulo2, 'ms-5 font-italic text-primary', `$ ${item.subtotal.toFixed(2)}`));
-
-            // DESCUENTO
-            let rowDescuento = createDomElement('div', 'row justify-content-end');
-            anidar(containerDescuentos, rowDescuento);
-            let colDescuento = createDomElement('div', 'col-10 d-flex justify-content-between align-items-end mt-1 text-italic');
-            anidar(rowDescuento, colDescuento);
-            anidar(colDescuento, createDomElement(rotulo2, 'font-italic text-success', 'Discount:'));
-            anidar(colDescuento, createDomElement(rotulo2, 'ms-5 font-italic text-success', `$ ${(item.subtotal - item.subtotalWithDiscount).toFixed(2)}`));
-
-            // PRECIO UNIDAD CON DESCUENTO
-            let rowPrecioUnidadConDescuento = createDomElement('div', 'row justify-content-end');
-            anidar(containerDescuentos, rowPrecioUnidadConDescuento);
-            let colPUCD = createDomElement('div', 'col-10 d-flex justify-content-between align-items-center mt-1 text-italic bg-warning');
-            anidar(rowPrecioUnidadConDescuento, colPUCD);
-            anidar(colPUCD, createDomElement(rotulo2, 'font-italic text-white', '$/unit w/discount'));
-            anidar(colPUCD, createDomElement(rotulo2, 'ms-5 font-italic text-white', `$ ${(item.subtotalWithDiscount / item.quantity).toFixed(2)}`));
-
-            // CONTAINER SUBTOTAL CON DESCUENTO
-            let containerSubtotalConDescuento = createDomElement('div', 'container');
-            anidar(entry, containerSubtotalConDescuento);
-
-            // SUBTOTAL CON DESCUENTO
-            let rowSCD = createDomElement('div', 'row justify-content-end');
-            anidar(containerSubtotalConDescuento, rowSCD);
-            let colSCD = createDomElement('div', 'col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic');
-            anidar(rowSCD, colSCD);
-            anidar(colSCD, createDomElement(rotulo1, '', 'Subtotal:'));
-            anidar(colSCD, createDomElement(rotulo1, 'ms-5', `$ ${item.subtotalWithDiscount.toFixed(2)}`));
-
+            let preciowdics = `<span class = "text-danger text-decoration-line-through" style="font-style:italic;">$${item.price.toFixed(2)}</span> $${(item.subtotalWithDiscount / item.quantity).toFixed(2)}`;
+            cardDollarUnit = createDomElement('p', 'm-0 p-0 text-primary', preciowdics);
+            let subtotalwdisc = `<span class = "text-warning text-decoration-line-through" style="font-style:italic;">$${item.subtotal.toFixed(2)}</span> $${item.subtotalWithDiscount.toFixed(2)}`;
+            cardSubtotal = createDomElement('p', 'm-0 p-0', subtotalwdisc);
         } else {
-            // SUBTOTAL
-            let containerSubtotal = createDomElement('div', 'container');
-            anidar(entry, containerSubtotal);
-
-            let rowSubtotal = createDomElement('div', 'row justify-content-end');
-            anidar(containerSubtotal, rowSubtotal);
-            let colSubtotal = createDomElement('div', 'col-10 span-4 d-flex justify-content-between align-items-end mt-4 text-italic');
-            anidar(rowSubtotal, colSubtotal);
-            anidar(colSubtotal, createDomElement(rotulo1, '', 'Subtotal:'));
-            anidar(colSubtotal, createDomElement(rotulo1, 'ms-5', `$ ${item.subtotal.toFixed(2)}`));
+            cardDollarUnit = createDomElement('p', 'm-0 p-0 text-primary', `$${item.price.toFixed(2)}`);
+            cardSubtotal = createDomElement('p', 'm-0 p-0', `$${item.subtotal.toFixed(2)}`);
         }
 
-
+        anidar(entry, cardDiv);
+        anidar(cardDiv, cardHeaderDiv);
+        anidar(cardHeaderDiv, cardTitle);
+        anidar(cardHeaderDiv, cardType);
+        anidar(cardDiv, cardBodyDiv);
+        anidar(cardBodyDiv, cardImageDiv);
+        anidar(cardImageDiv, cardImage);
+        anidar(cardBodyDiv, cardColDiv);
+        anidar(cardColDiv, cardColContainer);
+        anidar(cardColContainer, cardColRow);
+        anidar(cardColRow, cardQuantityDiv);
+        anidar(cardQuantityDiv, cardQuantityTitle);
+        anidar(cardQuantityDiv, cardQuantity);
+        anidar(cardColRow, cardDollarUnitDiv);
+        anidar(cardDollarUnitDiv, cardDollarUnitTitle);
+        anidar(cardDollarUnitDiv, cardDollarUnit);
+        if (item.subtotalWithDiscount > 0) {
+            anidar(cardColRow, cardDiscDiv);
+            anidar(cardDiscDiv, cardDiscTitle);
+            anidar(cardDiscDiv, cardDisc);
+        }
+        anidar(cardColRow, cardSubtotalDiv);
+        anidar(cardSubtotalDiv, cardSubtotalTitle);
+        anidar(cardSubtotalDiv, cardSubtotal);
     });
 
-    // TOTAL DEL CARRITO
-    let totalCarrito = document.getElementById("total");
-    totalCarrito.innerHTML = '';
-    if (total > 0) {
-        let contenedorTotal = createDomElement('div', 'bg-primary text-white d-flex justify-content-between p-2 mb-3');
-        anidar(totalCarrito, contenedorTotal);
-        anidar(contenedorTotal, createDomElement('h4', 'font-weight-bold', 'TOTAL'));
-        anidar(contenedorTotal, createDomElement('h4', 'font-weight-bold', `$ ${total.toFixed(2)}`));
-    }
-
+    // TOTAL Y SUBTOTAL DEL CARRITO   
     let subtotalsCarrito = document.getElementById("subtotals");
     subtotalsCarrito.innerHTML = '';
 
     Object.keys(subtotal).forEach(key => {
-        console.log(key, subtotal[key].value, subtotal[key].discount);
-
         if (subtotal[key].value > 0) {
-            anidar(subtotalsCarrito, createDomElement('h4', 'bg-primary text-white d-flex justify-content-between my-2', key.toUpperCase()));
+            let tituloSubtotal = createDomElement('div', 'bg-dark text-white d-flex justify-content-between mb-2');
+            anidar(subtotalsCarrito, tituloSubtotal);
+            anidar(tituloSubtotal, createDomElement('p', 'text-uppercase py-0 ps-2 mb-0', key));
             if (subtotal[key].discount > 0) {
-
-                let contenedorStationery = createDomElement('div', 'text-primary d-flex justify-content-between');
+                anidar(tituloSubtotal, createDomElement('p', 'text-uppercase py-0 pe-2 mb-0', `$${(subtotal[key].value - subtotal[key].discount).toFixed(2)}`));
+                let contenedorStationery = createDomElement('div', 'text-muted d-flex justify-content-between');
                 anidar(subtotalsCarrito, contenedorStationery);
-                anidar(contenedorStationery, createDomElement('h5', 'ms-4 font-weight-bold', `Subtotal ${key} w/o discount`));
-                anidar(contenedorStationery, createDomElement('h5', 'font-weight-bold', `$ ${subtotal[key].value.toFixed(2)}`));
-
-                let contenedorStationeryDiscount = createDomElement('div', 'ms-4 text-primary d-flex justify-content-between');
+                anidar(contenedorStationery, createDomElement('p', 'fs-6 ms-4 mb-0', `Subtotal ${key} w/o disc.`));
+                anidar(contenedorStationery, createDomElement('p', 'fs-6 mb-0 pe-2', `$${subtotal[key].value.toFixed(2)}`));
+                let contenedorStationeryDiscount = createDomElement('div', 'text-muted d-flex justify-content-between ms-4');
                 anidar(subtotalsCarrito, contenedorStationeryDiscount);
-                anidar(contenedorStationeryDiscount, createDomElement('h5', 'font-weight-bold', `Discount ${key}`));
-                anidar(contenedorStationeryDiscount, createDomElement('h5', 'font-weight-bold', `$ ${subtotal[key].discount.toFixed(2)}`));
-
-                let contenedorStationerySubtotal = createDomElement('div', 'ms-4 bg-warning text-primary d-flex justify-content-between');
-                anidar(subtotalsCarrito, contenedorStationerySubtotal);
-                anidar(contenedorStationerySubtotal, createDomElement('h4', 'font-weight-bold', `Subtotal ${key}`));
-                anidar(contenedorStationerySubtotal, createDomElement('h4', 'font-weight-bold', `$ ${(subtotal[key].value - subtotal[key].discount).toFixed(2)}`));
+                anidar(contenedorStationeryDiscount, createDomElement('p', 'fs-6 mb-2', `Discount ${key}`));
+                anidar(contenedorStationeryDiscount, createDomElement('p', 'fs-6 mb-2 pe-2', `$${subtotal[key].discount.toFixed(2)}`));
             } else {
-                let contenedorSubtotalWODiscount = createDomElement('div', 'ms-4 bg-warning text-primary d-flex justify-content-between');
-                anidar(subtotalsCarrito, contenedorSubtotalWODiscount);
-                anidar(contenedorSubtotalWODiscount, createDomElement('h4', 'font-weight-bold', `Subtotal ${key}`));
-                anidar(contenedorSubtotalWODiscount, createDomElement('h4', 'font-weight-bold', `$ ${subtotal[key].value.toFixed(2)}`));
+                anidar(tituloSubtotal, createDomElement('p', 'py-0 pe-2 text-uppercase mb-0', `$${subtotal[key].value.toFixed(2)}`));
             }
         }
-
-
-
-        // switch (key) {
-        //     case 'stationery':
-        //         anidar(subtotalsCarrito, createDomElement('h4', 'bg-primary text-white d-flex justify-content-between p-2', 'Stationery'));
-        //         if (subtotal[key].discount > 0) {
-
-        //             let contenedorStationery = createDomElement('div', 'bg-primary text-white d-flex justify-content-between p-2');
-        //             anidar(subtotalsCarrito, contenedorStationery);
-        //             anidar(contenedorStationery, createDomElement('h4', 'font-weight-bold', 'Subtotal stationery w/o discount'));
-        //             anidar(contenedorStationery, createDomElement('h4', 'font-weight-bold', `$ ${subtotal[key].value.toFixed(2)}`));
-
-        //             let contenedorStationeryDiscount = createDomElement('div', 'bg-primary text-white d-flex justify-content-between p-2 mb-3');
-        //             anidar(subtotalsCarrito, contenedorStationeryDiscount);
-        //             anidar(contenedorStationeryDiscount, createDomElement('h4', 'font-weight-bold', 'Discount stationery'));
-        //             anidar(contenedorStationeryDiscount, createDomElement('h4', 'font-weight-bold', `$ ${subtotal[key].discount.toFixed(2)}`));
-
-        //             let contenedorStationerySubtotal = createDomElement('div', 'bg-primary text-white d-flex justify-content-between p-2 mb-3');
-        //             anidar(subtotalsCarrito, contenedorStationerySubtotal);
-        //             anidar(contenedorStationerySubtotal, createDomElement('h4', 'font-weight-bold', 'Subtotal stationery'));
-        //             anidar(contenedorStationerySubtotal, createDomElement('h4', 'font-weight-bold', `$ ${(subtotal[key].value - subtotal[key].discount).toFixed(2)}`));
-        //         } else {
-        //             let contenedorSubtotalWODiscount = createDomElement('div', 'bg-primary text-white d-flex justify-content-between p-2');
-        //             anidar(subtotalsCarrito, contenedorSubtotalWODiscount);
-        //             anidar(contenedorSubtotalWODiscount, createDomElement('h4', 'font-weight-bold', 'Subtotal stationery'));
-        //             anidar(contenedorSubtotalWODiscount, createDomElement('h4', 'font-weight-bold', `$ ${subtotal[key].value.toFixed(2)}`));
-        //         }
-
-        //         break;
-
-        //     case 'makeup':
-        //         break;
-
-        //     case 'oil':
-        //         break;
-        // }
     });
 
-
+    if (total > 0) {
+        let contenedorTotal = createDomElement('div', 'text-white bg-dark d-flex justify-content-between px-2 pt-3 pb-0 h-100');
+        anidar(subtotalsCarrito, contenedorTotal);
+        anidar(contenedorTotal, createDomElement('p', 'fs-3', 'TOTAL'));
+        anidar(contenedorTotal, createDomElement('p', 'fs-3', `$${total.toFixed(2)}`));
+    }
 }

@@ -26,94 +26,15 @@
         </div>
     </nav>
 
-    <!-- Icons -->
-    <div class="container pt-5 mt-5">
+    <!-- Go up -->
+    <div class="" id ="arriba" style="height: 100px;"></div>
+
+    <!-- Form & Icons -->
+    <div class="container">
         <div class="row mx-2 mx-sm-2 mx-md-0">
             <div class="col-12">
                 <div class="card shadow">
                     <h5 class="card-header text-center bg-primary text-white fs-4">Checkout Page</h5>
-                    <div class="card-body">
-                        <div class="row ms-0">
-                            <div class="col-12 col-sm-12 col-md-6">
-                                <p class="my-3 mx-0 fs-4"><i class="bi bi-currency-dollar"></i> Cash on
-                                    Delivery
-                                </p>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-6">
-                                <p class="my-3 mx-0 fs-4"><i class="bi bi-arrow-left-right"></i> 100% Return
-                                </p>
-                            </div>
-                        </div>
-                        <div class="row ms-0">
-                            <div class="col-12 col-sm-12 col-md-6">
-                                <p class="my-3 mx-0 fs-4"><i class="bi bi-hand-thumbs-up"></i> Quality Assured
-                                </p>
-                            </div>
-                            <div class="col-12 col-sm-12 col-md-6">
-                                <p class="my-3 mx-0 fs-4"><i class="bi bi-stopwatch"></i> Delivery on time</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-        </div>
-    </div>
-
-    <!-- My Cart  /  Form -->
-    <div class="container mt-4">
-        <div class="row mx-2 mx-sm-2 mx-md-0">
-
-            <!-- My Cart -->
-            <div class="col-12 col-sm-12 col-md-6">
-                <div class="card shadow">
-                    <h5 class="card-header bg-primary text-white">My Cart</h5>
-                    <div class="card-body">
-                        <!-- <h5 class="card-title">Special title treatment</h5>
-                        <p class="card-text">With supporting text below as a natural lead-in to additional content.</p> -->
-                        <div class="col-12" id="total">Total</div>
-
-                        <div class="accordion accordion-flush" id="myaccordion">
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingOne">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#flush-collapseOne" aria-expanded="false"
-                                        aria-controls="flush-collapseOne">
-                                        Subtotals
-                                    </button>
-                                </h2>
-                                <div id="flush-collapseOne" class="accordion-collapse collapse"
-                                    aria-labelledby="flush-headingOne" data-bs-parent="#myaccordion">
-                                    <div class="accordion-body">
-                                        <div id="subtotals"></div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="accordion-item">
-                                <h2 class="accordion-header" id="flush-headingTwo">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
-                                        data-bs-target="#flush-collapseTwo" aria-expanded="false"
-                                        aria-controls="flush-collapseTwo">
-                                        Details of cart
-                                    </button>
-                                </h2>
-                                <div id="flush-collapseTwo" class="accordion-collapse collapse"
-                                    aria-labelledby="flush-headingTwo" data-bs-parent="#myaccordion">
-                                    <div class="accordion-body">
-                                        <ul class="list-group-flush overflow-auto" style="max-height: 500px;"
-                                            id="lista"></ul>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Form -->
-            <div class="col-12 col-sm-12 col-md-6 mt-4 mt-sm-4 mt-md-0">
-                <div class="card shadow">
-                    <h5 class="card-header bg-primary text-white">Purchase form</h5>
                     <div class="card-body">
                         <!-- Checkout starts here -->
                         <form class="form mt-2 mx-3">
@@ -184,8 +105,58 @@
                                     onclick="validate()"><i class="bi bi-credit-card p-2"></i>Buy</button>
                             </div>
                         </form>
+
+                        <!-- Icons -->
+                        <div class="row mx-5">
+                            <div class="col-12 col-sm-12 col-md-3">
+                                <p class="fs-5"><i class="bi bi-currency-dollar"></i> Cash on
+                                    Delivery
+                                </p>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-3">
+                                <p class="fs-5"><i class="bi bi-arrow-left-right"></i> 100% Return
+                                </p>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-3">
+                                <p class="fs-5"><i class="bi bi-hand-thumbs-up"></i> Quality Assured
+                                </p>
+                            </div>
+                            <div class="col-12 col-sm-12 col-md-3">
+                                <p class="fs-5"><i class="bi bi-stopwatch"></i> Delivery on time</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subtotals & Total  /  My Cart -->
+    <div class="container mt-4">
+        <div class="row mx-2 mx-sm-2 mx-md-0">
+            <!-- Subtotals & Total -->
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6">
+                <div class="card-checkout card shadow overflow-auto">
+                    <h5 class="sticky-top card-header text-center bg-primary text-white">Total</h5>
+                    <div class="card-body">
+                        <div id="subtotals"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- My Cart -->
+            <div class="col-12 col-sm-12 col-md-12 col-lg-6 mt-4 mt-sm-4 mt-md-4 mt-lg-0">
+                <div class="card-checkout card shadow overflow-auto">
+                    <h5 class="sticky-top card-header text-center bg-primary text-white">Cart ordered by type</h5>
+                    <div class="card-body">
+                        <ul class="list-group-flush" id="lista"></ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Boton ir arriba -->
+            <div class="col-12 mt-4 d-inline-block d-sm-inline-block d-md-inline-block d-lg-none">
+                <a  href="#arriba" class="btn btn-primary text-white w-100"><i class="bi bi-arrow-up"></i>Go Up</a>
             </div>
         </div>
     </div>
