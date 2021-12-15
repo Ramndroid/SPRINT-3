@@ -224,7 +224,10 @@ function removeFromCart(id) {
 function removeElementFromCart(id) {
     for (let i = 0; i < cart.length; i++) {
         if (cart[i].id === id) {
-            cart.splice(i, 1);
+            if (cart[i].quantity >= 1) {
+                cart[i].quantity++;
+                cart[i].subtotal = cart[i].price * cart[i].quantity;
+            }
         }
     }
 
@@ -236,10 +239,7 @@ function removeElementFromCart(id) {
 function addFromCart(id) {
     for (let i = 0; i < cart.length; i++) {
         if (cart[i].id === id) {
-            if (cart[i].quantity >= 1) {
-                cart[i].quantity++;
-                cart[i].subtotal = cart[i].price * cart[i].quantity;
-            }
+            cart.splice(i, 1);
         }
     }
 
