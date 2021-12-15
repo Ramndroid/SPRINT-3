@@ -1,3 +1,5 @@
+// EJERCICIO 6
+
 // Get the input fields
 var userName = document.getElementById('username');
 var lastName = document.getElementById('userlastname');
@@ -243,7 +245,7 @@ function validarPhone() {
     }
 }
 
-// Exercise 8
+// Exercise 6
 function validate() {
     validarNombre();
     validarLastName();
