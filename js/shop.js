@@ -1,20 +1,24 @@
-// Get Products []
+// Fuente de datos
 var products = [];
+var discounts = [];
+
+// Get Products []
 const requestURL = '../json/products.json';
 const request = new XMLHttpRequest();
 request.open('GET', requestURL);
 request.responseType = 'json';
 request.send();
-request.onload = function () { products = request.response; }
+request.onload = function () {
+    products = request.response;
 
-// Get Discounts[]
-var discounts = [];
-const requestURLDiscounts = '../json/discounts.json';
-const requestDiscounts = new XMLHttpRequest();
-requestDiscounts.open('GET', requestURLDiscounts);
-requestDiscounts.responseType = 'json';
-requestDiscounts.send();
-requestDiscounts.onload = function () { discounts = requestDiscounts.response; }
+    // Get Discounts[]
+    const requestURLDiscounts = '../json/discounts.json';
+    const requestDiscounts = new XMLHttpRequest();
+    requestDiscounts.open('GET', requestURLDiscounts);
+    requestDiscounts.responseType = 'json';
+    requestDiscounts.send();
+    requestDiscounts.onload = function () { discounts = requestDiscounts.response; }
+}
 
 // Array with products (objects) added directly with push(). Products in this array are repeated.
 var cartList = [];
@@ -52,6 +56,7 @@ function buy(id) {
 // Exercise 2
 function cleanCart() {
     cartList = [];
+    cart = [];
 }
 
 // Exercise 3
@@ -78,7 +83,6 @@ function calculateSubtotals() {
     return subtotal;
 }
 
-// Exercise 4
 function calculateTotal() {
     // Calculate total price of the cart either using the "cartList" array
     cartList.forEach(product => {
@@ -89,7 +93,7 @@ function calculateTotal() {
     return total;
 }
 
-// Exercise 5
+// Exercise 4
 function generateCart() {
     // Using the "cartlist" array that contains all the items in the shopping cart, 
     // generate the "cart" array that does not contain repeated items, instead each item of this array "cart" shows the quantity of product.
@@ -117,7 +121,7 @@ function generateCart() {
     });
 }
 
-// Exercise 6
+// Exercise 5
 function applyPromotions() {
     // Apply promotions to each item in the array "cart"
     cart.forEach(item => {
@@ -223,7 +227,7 @@ function calculateSubtotalsCart() {
         switch (product.type) {
             case 'grocery':
                 subtotal.grocery.value += product.subtotal;
-                if (product.subtotalWithDiscount > 0) 
+                if (product.subtotalWithDiscount > 0)
                     subtotal.grocery.discount += product.subtotal - product.subtotalWithDiscount;
                 break;
 
@@ -256,12 +260,7 @@ function calculateTotalCart() {
     total = totalTmp - discountTmp;
 }
 
-// Exercise 9
-function removeCart() {
-    cart = [];
-    printCart();
-}
-
+// Exercise 8
 function removeFromCart(id) {
     for (let i = 0; i < cart.length; i++) {
         if (cart[i].id === id) {
@@ -271,16 +270,6 @@ function removeFromCart(id) {
             } else if (cart[i].quantity == 1) {
                 cart.splice(i, 1);
             }
-        }
-    }
-
-    printCart();
-}
-
-function removeElementFromCart(id) {
-    for (let i = 0; i < cart.length; i++) {
-        if (cart[i].id === id) {
-            cart.splice(i, 1);
         }
     }
 
@@ -300,7 +289,22 @@ function addFromCart(id) {
     printCart();
 }
 
-// Exercise 10
+function removeElementFromCart(id) {
+    for (let i = 0; i < cart.length; i++) {
+        if (cart[i].id === id) {
+            cart.splice(i, 1);
+        }
+    }
+
+    printCart();
+}
+
+function removeCart() {
+    cart = [];
+    printCart();
+}
+
+// Exercise 9
 function printCart() {
 
     // Aplicar promociones a 'cart'
@@ -318,6 +322,7 @@ function printCart() {
 }
 
 // GENERATE DOM CART
+// La maquetación del cart es horrible, es solo funcional, en el nivel 3 sí exploro darle una mejor apariencia :)
 function generateDOMCart() {
     let rotulo1 = 'h5';
     let rotulo2 = 'h6';
