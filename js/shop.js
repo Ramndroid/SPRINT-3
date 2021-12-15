@@ -263,6 +263,9 @@ function printMyCartText() {
         myCart.innerHTML = `<i class="bi bi-cart4"></i> My Cart`;
         myCartTitle.innerHTML = `<i class="bi bi-cart4"></i> My Cart`;
     }
+
+    // Guardar session storage
+    sessionStorage.setItem("mycart", JSON.stringify(cart));
 }
 
 // PRINT CART
@@ -280,6 +283,8 @@ function printCart() {
     // Mostrar cart
     generateDOMCart();
 
+    // Guardar session storage
+    sessionStorage.setItem("subtotal", JSON.stringify(subtotal));
 }
 
 // MANIPULAR EL DOM
@@ -401,10 +406,6 @@ function generateDOMCart() {
         btnCheckout.style.visibility = 'collapse';
         emptyCart.style.visibility = 'visible';
     }
-
-    // Guardar session storage
-    sessionStorage.setItem("mycart", JSON.stringify(cart));
-    sessionStorage.setItem("subtotal", JSON.stringify(subtotal));
 
 }
 
