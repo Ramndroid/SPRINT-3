@@ -1,0 +1,23 @@
+{
+  "name": "starter-code-frontend-sprint-3",
+  "version": "1.0.0",
+  "description": "Nivel 3 (ejercicios 10 y 11).\r Es necesario abrir el index.html con Live Server a fin de cargar correctamente los archivos json de los productos[] y los descuentos [].",
+  "main": "index.js",
+  "scripts": {
+    "build": "purgecss -css css/main.css --content index.html  -o css/main.min.css"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Ramndroid/SPRINT-3.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Ramndroid/SPRINT-3/issues"
+  },
+  "homepage": "https://github.com/Ramndroid/SPRINT-3#readme",
+  "dependencies": {
+    "bootstrap": "^5.1.3",
+    "bootstrap-icons": "^1.7.2"
+  }
+}

@@ -1,56 +1,65 @@
 [
     {
         "id": 1,
-        "name": "Cooking oil",
-        "price": 10.5,
-        "type": "grocery"
+        "name": "Pens",
+        "price": 3.5,
+        "type": "stationery",
+        "img": ["images/stationery-1.jpg", "../images/stationery-1-min.jpg"]
     },
     {
         "id": 2,
-        "name": "Pasta",
-        "price": 6.25,
-        "type": "grocery"
+        "name": "Highlighters",
+        "price": 4.25,
+        "type": "stationery",
+        "img": ["../images/stationery-2.jpg", "../images/stationery-2-min.jpg"]
     },
     {
         "id": 3,
-        "name": "Instant cupcake mixture",
+        "name": "Notebooks",
         "price": 5,
-        "type": "grocery"
-    },
+        "type": "stationery",
+        "img": ["../images/stationery-3.jpg", "../images/stationery-3-min.jpg"]
+    }, 
     {
         "id": 4,
-        "name": "All-in-one",
-        "price": 260,
-        "type": "beauty"
+        "name": "Cold Palette",
+        "price": 49.99,
+        "type": "makeup",
+        "img": ["../images/makeup-1.jpg", "../images/makeup-1-min.jpg"]
     },
     {
         "id": 5,
-        "name": "Zero Make-up Kit",
-        "price": 20.5,
-        "type": "beauty"
+        "name": "All-in-one",
+        "price": 260,
+        "type": "makeup",
+        "img": ["../images/makeup-2.jpg", "../images/makeup-2-min.jpg"]
     },
     {
         "id": 6,
-        "name": "Lip Tints",
+        "name": "Brushes",
         "price": 12.75,
-        "type": "beauty"
+        "type": "makeup",
+        "img": ["../images/makeup-3.jpg", "../images/makeup-3-min.jpg"]
     },
     {
         "id": 7,
-        "name": "Lawn Dress",
-        "price": 15,
-        "type": "clothes"
+        "name": "Tangerine",
+        "price": 9.99,
+        "type": "oil",
+        "img": ["../images/oil-1.jpg", "../images/oil-1-min.jpg"]
     },
     {
         "id": 8,
-        "name": "Lawn-Chiffon Combo",
-        "price": 19.99,
-        "type": "clothes"
+        "name": "Lavender",
+        "price": 12.99,
+        "type": "oil",
+        "img": ["../images/oil-2.jpg", "../images/oil-2-min.jpg"]
     },
     {
         "id": 9,
-        "name": "Toddler Frock",
+        "name": "Lemon",
         "price": 9.99,
-        "type": "clothes"
+        "type": "oil",
+        "img": ["../images/oil-3.jpg", "../images/oil-3-min.jpg"]
     }
   ]

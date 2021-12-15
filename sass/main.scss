@@ -1,0 +1,24 @@
+/////////////////////////////// VARIABLES DE BOOTSTRAP //////////
+$primary:                         #6667ab;
+$list-group-border-color:         #ffffff00;
+
+/////////////////////////////// GENERAL /////////////////////////
+* {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+body{
+    font-family: Poppins !important;
+} 
+
+.botonhover {
+    border: 2px solid $primary !important;
+}
+
+/////////////////////////////// IMPORT BOOTSTRAP ////////////////
+@import "../node_modules/bootstrap/scss/bootstrap";

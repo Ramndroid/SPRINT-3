@@ -5,43 +5,83 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <!-- bootstrap -->
-    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
-        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
-    <!-- font awesome -->
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
-        integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+    <link rel="icon" href="images/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="node_modules/bootstrap-icons/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/style.css">
-
     <title>ShopNow</title>
 </head>
 
 <body>
-    <!-- header -->
-    <header class="m-5">
-        <h1 class="text-center m-5"><i class="fas fa-shopping-cart mr-2"></i> ShopNow</h1>
-        <h3 class="text-center m-3">Welcome to your Online Shopping Store.</h3>
-    </header>
+    <!-- Navbar -->
+    <nav class="navbar navbar-light bg-primary fixed-top py-2 py-sm-2 py-md-3">
+        <div class="container-fluid">
+            <h2>
+                <a class="navbar-brand text-white fs-4 ms-0 ms-sm-0 ms-md-3 ms-lg-5" href="index.html">ShopNow</a>
+            </h2>
+            <h2>
+                <a class="btn-primary nav-link text-white fs-5 shadow me-0 me-sm-0 me-md-3 me-lg-5"
+                    href="shop.html">Come in<i class="bi bi-arrow-right-short"></i></a>
+            </h2>
+        </div>
+    </nav>
 
-    <!-- Buttons -->
-    <h3 class="text-center">Select your category:</h3>
-    <div class="text-center">
-        <button type="button" onclick="window.location.href = 'shop.html#grocery';" class="btn m-4 mt-5 btn btn-primary">Grocery</button>
-        <button type="button" onclick="window.location.href = 'shop.html#beauty';" class="btn m-4 mt-5 btn btn-primary">Beauty</button>
-        <button type="button" onclick="window.location.href = 'shop.html#clothes';" class="btn m-4 mt-5 btn btn-primary">Clothes</button>
+    <!-- Sections -->
+    <div class="container pt-5 mt-5 text-center">
+
+        <!-- makeup -->
+        <div class="row pt-3">
+            <div class="col-12">
+                <a href="shop.html#makeup-img" class="position-relative">
+                    <h5 class="banner-text position-absolute bg-dark top-50 start-0 text-white ms-5">MAKEUP</h5>
+                    <img src="images/makeup-bg.jpg" alt="" class="img-fluid banner">
+                </a>
+            </div>
+        </div>
+
+        <!-- oil -->
+        <div class="row pt-3">
+            <div class="col-12">
+                <a href="shop.html#oil-img" class="position-relative">
+                    <h5 class="banner-text position-absolute bg-dark top-50 start-0 text-white ms-5">ESSENTIAL OILS</h5>
+                    <img src="images/oil-bg.jpg" alt="" class="img-fluid banner">
+                </a>
+            </div>
+        </div>
+
+        <!-- stationery -->
+        <div class="row pt-3">
+            <div class="col-12">
+                <a href="shop.html#stationery-img" class="position-relative">
+                    <h5 class="banner-text position-absolute bg-dark top-50 start-0 text-white ms-5">STATIONERY</h5>
+                    <img src="images/stationery-bg.jpg" alt="" class="img-fluid banner">
+                </a>
+            </div>
+        </div>
     </div>
 
-    <!-- script tags -->
-    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
-        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous">
-    </script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
-    </script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
-        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
-    </script>
+    <!-- Footer -->
+    <div class="container">
+        <footer class="row mt-5 pt-5 pb-2 text-muted text-center text-small">
+            <div class="col">
+                <p class="mb-1">© 2021 ShopNow</p>
+                <ul class="list-inline">
+                    <li class="list-inline-item">
+                        <a href="#">About us</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">Terms & conditions</a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">Contact</a>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Script tags -->
+    <script src="node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>

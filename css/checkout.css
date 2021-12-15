@@ -1,9 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=Poppins');
-
-body {
-    font-family: Poppins;
-}
-
 #errorName, #errorLastName, #errorEmail,
 #errorAddress, #errorPassword, #errorPhone {
     display: none;
@@ -19,4 +13,38 @@ input:invalid {
 
 input:invalid:focus {
     background-color: lightcoral;
+}
+
+.card-checkout {
+    height: auto;
+}
+
+@media (min-width: 576px) { 
+    .card-checkout {
+        height: auto;
+    }
+}
+
+@media (min-width: 768px) { 
+    .card-checkout {
+        height: auto;
+    }
+}
+
+@media (min-width: 992px) { 
+    .card-checkout {
+        height: 500px;
+    }
+}
+
+@media (min-width: 1200px) { 
+    .card-checkout {
+        height: 550px;
+    }
+}
+
+@media (min-width: 1400px) { 
+    .card-checkout {
+        height: 600px;
+    }
 }

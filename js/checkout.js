@@ -243,7 +243,7 @@ function validarPhone() {
     }
 }
 
-// Exercise 8
+// OnClick del botón "Buy" de checkout.html
 function validate() {
     validarNombre();
     validarLastName();
