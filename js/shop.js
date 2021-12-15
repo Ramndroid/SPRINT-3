@@ -526,6 +526,7 @@ function generateDOMProducts() {
     });
 
     // Ventana modal para mostrar la foto del producto ampliada
+    // ESTE CODIGO LO HE COPIADO Y PEGADO TAL CUAL, PERO COMPRENDO EL FUNCIONAMIENTO QUE SE PLANTEA.
     const imagenes = document.querySelectorAll('.galeria .contenedor-imagen');
     const imagenModal = document.getElementById('imagen-modal');
     imagenes.forEach((imagen) => {
@@ -535,10 +536,10 @@ function generateDOMProducts() {
     });
 
     // Tooltips de los productos con oferta
+    // ESTE CODIGO LO HE COPIADO Y PEGADO TAL CUAL.
     var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
     tooltipTriggerList.map(function (tooltipTriggerEl) {
         return new bootstrap.Tooltip(tooltipTriggerEl)
     })
-
 }
 

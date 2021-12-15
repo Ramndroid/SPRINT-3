@@ -3,9 +3,11 @@ let subtotal;
 let total = 0;
 
 // Comprobar si el navegador es compatible con webstorage
+// ESTE IF (typeof (Storage) == "undefined") LO HE COPIADO Y NO LO TENGO 100% ESTUDIADO
 if (typeof (Storage) == "undefined") {
-    window.location.href = "https://google.es";
+    window.location.href = "https://google.es"; // Ni idea porque se pone aquí google.es
 }
+// fin del bloque incomprendido
 
 if (sessionStorage.getItem("mycart") != null) {
     let mc = sessionStorage.getItem("mycart");
@@ -55,6 +57,7 @@ function anidar(padre, hijo) {
     padre.appendChild(hijo);
 }
 
+// Es una casi copia del mismo método que en shop.js
 function generateDOMCart() {
     // Vincular lista del DOM y resetearla
     let lista = document.getElementById("lista");
