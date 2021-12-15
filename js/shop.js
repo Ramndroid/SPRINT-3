@@ -224,10 +224,7 @@ function removeFromCart(id) {
 function removeElementFromCart(id) {
     for (let i = 0; i < cart.length; i++) {
         if (cart[i].id === id) {
-            if (cart[i].quantity >= 1) {
-                cart[i].quantity++;
-                cart[i].subtotal = cart[i].price * cart[i].quantity;
-            }
+            cart.splice(i, 1);
         }
     }
 
@@ -239,7 +236,10 @@ function removeElementFromCart(id) {
 function addFromCart(id) {
     for (let i = 0; i < cart.length; i++) {
         if (cart[i].id === id) {
-            cart.splice(i, 1);
+            if (cart[i].quantity >= 1) {
+                cart[i].quantity++;
+                cart[i].subtotal = cart[i].price * cart[i].quantity;
+            }
         }
     }
 
@@ -263,6 +263,9 @@ function printMyCartText() {
         myCart.innerHTML = `<i class="bi bi-cart4"></i> My Cart`;
         myCartTitle.innerHTML = `<i class="bi bi-cart4"></i> My Cart`;
     }
+
+    // Guardar session storage
+    sessionStorage.setItem("mycart", JSON.stringify(cart));
 }
 
 // PRINT CART
@@ -279,6 +282,9 @@ function printCart() {
 
     // Mostrar cart
     generateDOMCart();
+
+    // Guardar session storage
+    sessionStorage.setItem("subtotal", JSON.stringify(subtotal));
 
 }
 
@@ -402,9 +408,7 @@ function generateDOMCart() {
         emptyCart.style.visibility = 'visible';
     }
 
-    // Guardar session storage
-    sessionStorage.setItem("mycart", JSON.stringify(cart));
-    sessionStorage.setItem("subtotal", JSON.stringify(subtotal));
+    
 
 }
 

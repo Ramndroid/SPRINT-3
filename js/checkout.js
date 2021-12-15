@@ -1,5 +1,3 @@
-// EJERCICIO 6
-
 // Get the input fields
 var userName = document.getElementById('username');
 var lastName = document.getElementById('userlastname');
